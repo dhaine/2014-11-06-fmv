@@ -5,13 +5,25 @@ opts_chunk$set(tidy = F,  fig.align = "center", fig.height = 5, fig.width = 10)
 
 # Base Graphics
 
-One of the best parts of R is its plotting capabilities. Most model output has
-an associated `plot` method which allows one to quickly visualize the results of
-an analysis using a consistent interface.
+One of the best parts of R is its plotting capabilities. Take for example the
+following graph
+[visualizing Facebook friends](http://paulbutler.org/archives/visualizing-facebook-friends/),
+[Napoleon's March to Moscow](http://www.datavis.ca/gallery/re-minard.php), or
+this [wind map](http://hint.fm/wind/index.html).
+
+![](figure/facebook_map.png)
+
+\
+
+![](figure/march.jpg)
+
+Most model output has an associated `plot` method which allows one to quickly
+visualize the results of an analysis using a consistent interface.
 
 In this lesson, we will learn about base graphics, which is the oldest graphics
-system in R. Higher-level graphics packages like `lattice`  and `ggplot2` are
-also commonly used. `ggplot2` will be covered next.
+system in R. Higher-level graphics packages like
+[`lattice`](https://www.springer.com/new+%26+forthcoming+titles+%28default%29/book/978-0-387-75968-5)
+and `ggplot2` are also commonly used. `ggplot2` will be covered next.
 
 We will use the [pig_adg](http://www.upei.ca/ver/datasets-programs) dataset from
 the [VER](http://www.upei.ca/ver/welcome) book by Ian Dohoo et al. These are
@@ -28,6 +40,14 @@ download.file(
 load(unz(temp, "ver2_data_R/pig_adg.rdata"))
 unlink(temp)
 ```
+
+Base graphics use `plot()` function to create a plot. The type of plot depends on
+the `class` of arguments given. `plot(x, y)` will give a scatterplot but if `x` is
+a factor, it will give a boxplot. You also have high-level functions like
+`hist()` to create an histogram or `qqnorm()` to get a QQ-plot. You can provide
+additional arguments like `type =` to define the type of plot (`p` for
+points, `l` for line, ...), `main =` and `sub =` for title and subtitle, `xlab
+=` and `ylab =` for axis labels.
 
 ```{r plot1}
 plot(adg ~ dtm, data = pig_adg)
@@ -77,6 +97,13 @@ point to `sex`. These graphical properties `x`, `y` and `sex` that encode the
 data on the plot are referred to as `aesthetics`. Some other aesthetics to
 consider are `size`, `shape` etc.
 
+```{r}
+ggplot(pig_adg, aes(x = dtm, y = adg)) +
+    geom_point(aes(color = factor(sex), size = ar)) +
+    geom_smooth(method = 'lm')
+```
+
+
 __Geometries__
 
 The second element to focus on are the visual elements you can see in the plot
@@ -112,7 +139,8 @@ __Exercise__
 
 Try to replicate the following plot shown below. You will have to create the
 dichotomous variable `ar_g1` indicating the presence/absence of an atrophic
-rhinitis score greater than 1.
+rhinitis score greater than 1. The cross represents the mean, whci is not
+produced by default in boxplot. Hint to get it: see `stat_summary`.
 
 ```{r}
 pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
