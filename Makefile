@@ -57,7 +57,6 @@ MOST_SRC = \
 	 novice/extras/index.md $(sort $(wildcard novice/extras/??-*.md)) \
 	 novice/teaching/index.md  $(sort $(wildcard novice/teaching/??-*.md)) \
 	 novice/ref/index.md  $(sort $(wildcard novice/ref/??-*.md)) \
-	 novice/epi/index.md $(sort $(wildcard novice/epi/??-*.md)) \
 	 bib.md \
 	 gloss.md \
 	 rules.md \
