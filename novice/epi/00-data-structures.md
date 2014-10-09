@@ -5,8 +5,6 @@ root: ../..
 
 
 
-
-
 # R Objects / Data Structure
 
 * To make the best of the R language, you'll need a strong understanding of the
@@ -38,7 +36,8 @@ be
 * a complex number, or
 * a logical value (Boolean value: TRUE/FALSE).
 
-It can be determined with the function `typeof()`.
+It can be determined with the function `typeof()`. `length()` informs you about
+its size and `attributes()` if the object has any metadata associated to it.
 
 | Example | Type |
 | ------- | ---- |
@@ -49,25 +48,52 @@ It can be determined with the function `typeof()`.
 | 1+4i | complex |
 
 
-```r
-typeof() # what is it?
-length() # how long is it? What about two dimensional objects?
-attributes() # does it have any metadata?
 
-# Example
+<pre class='in'><code>x <- "dataset"
+typeof(x)</code></pre>
 
-x <- "dataset"
-typeof(x)
-attributes(x)
 
-y <- 1:10
-typeof(y)
-length(y)
-attributes(y)
 
-z <- c(1L, 2L, 3L)
-typeof(z)
-```
+<div class='out'><pre class='out'><code>[1] "character"
+</code></pre></div>
+
+
+
+<pre class='in'><code>attributes(x)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>NULL
+</code></pre></div>
+
+
+
+<pre class='in'><code>y <- 1:10
+typeof(y)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] "integer"
+</code></pre></div>
+
+
+
+<pre class='in'><code>length(y)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] 10
+</code></pre></div>
+
+
+
+<pre class='in'><code>z <- c(1L, 2L, 3L)
+typeof(z)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] "integer"
+</code></pre></div>
 
 R has many data structures. These include
 
@@ -89,130 +115,122 @@ all their elements must be the same mode. There are various ways to
 create vectors. The simplest one is with the `c` function.
 
 
-```r
-x <- c(1, 2, 5)
-x
-```
+<pre class='in'><code>x <- c(1, 2, 5)
+x</code></pre>
 
-```
-## [1] 1 2 5
-```
 
-```r
-length(x)
-```
 
-```
-## [1] 3
-```
+<div class='out'><pre class='out'><code>[1] 1 2 5
+</code></pre></div>
+
+
+
+<pre class='in'><code>length(x)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] 3
+</code></pre></div>
 
 `x` is a numeric vector. These are the most common kind. They are numeric
 objects and are treated as double precision real numbers. To explicitly create
 integers, add an `L` at the end.
 
 
-```r
-x1 <- c(1L, 2L, 5L)
-```
+<pre class='in'><code>x1 <- c(1L, 2L, 5L)</code></pre>
 
 You can also have logical vectors. 
 
 
-```r
-y <- c(TRUE, TRUE, FALSE, FALSE)
-```
+<pre class='in'><code>y <- c(TRUE, TRUE, FALSE, FALSE)</code></pre>
 
 Finally you can have character vectors:
 
 
-```r
-z <- c("Holstein", "Brown Swiss", "Jersey")
-```
+<pre class='in'><code>z <- c("Holstein", "Brown Swiss", "Jersey")</code></pre>
 
 The `c` function allows to combine its arguments. If the arguments
 are of various modes, they will be reduced to their lowest common
 type:
 
 
-```r
-x2 <- c(1, 3, "a")
-x2
-```
+<pre class='in'><code>x2 <- c(1, 3, "a")
+x2</code></pre>
 
-```
-## [1] "1" "3" "a"
-```
 
-```r
-typeof(x2)
-```
 
-```
-## [1] "character"
-```
+<div class='out'><pre class='out'><code>[1] "1" "3" "a"
+</code></pre></div>
+
+
+
+<pre class='in'><code>typeof(x2)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] "character"
+</code></pre></div>
 
 This is called implicit coercion. Objects can be explicitly coerced with the
 `as.<class_name>` function.
 
 
-```r
-as.character(x1)
-```
+<pre class='in'><code>as.character(x1)</code></pre>
 
-```
-## [1] "1" "2" "5"
-```
+
+
+<div class='out'><pre class='out'><code>[1] "1" "2" "5"
+</code></pre></div>
 
 You can also use the `:` operator or the `seq` function:
 
 
-```r
-1:10
-```
+<pre class='in'><code>1:10</code></pre>
 
-```
-##  [1]  1  2  3  4  5  6  7  8  9 10
-```
 
-```r
-seq(from = 5, to = 25, by = 5)
-```
 
-```
-## [1]  5 10 15 20 25
-```
+<div class='out'><pre class='out'><code> [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre></div>
+
+
+
+<pre class='in'><code>seq(from = 5, to = 25, by = 5)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1]  5 10 15 20 25
+</code></pre></div>
 
 **Other objects**
 
 `Inf` is infinity. You can have either positive or negative infinity.
 
 
-```r
-1/0
-```
+<pre class='in'><code>1/0</code></pre>
 
-```
-## [1] Inf
-```
 
-```r
-1/Inf
-```
 
-```
-## [1] 0
-```
+<div class='out'><pre class='out'><code>[1] Inf
+</code></pre></div>
+
+
+
+<pre class='in'><code>1/Inf</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] 0
+</code></pre></div>
 
 `NaN` means Not a number. It's an undefined value.
 
 
-```r
-0/0
-```
+<pre class='in'><code>0/0</code></pre>
 
-```
-## [1] NaN
-```
+
+
+<div class='out'><pre class='out'><code>[1] NaN
+</code></pre></div>
 
 Each object can have attributes. Attribues can be part of an object of R. These
 include: 
@@ -232,69 +250,70 @@ only numbers, or only words. You can create a matrix with the `matrix`
 function:
 
 
-```r
-m <- rbind(c(1, 4), c(2, 2))
-m
-```
+<pre class='in'><code>m <- rbind(c(1, 4), c(2, 2))
+m</code></pre>
 
-```
-##      [,1] [,2]
-## [1,]    1    4
-## [2,]    2    2
-```
 
-```r
-m <- cbind(c(1, 4), c(2, 2))
-m
-```
 
-```
-##      [,1] [,2]
-## [1,]    1    2
-## [2,]    4    2
-```
+<div class='out'><pre class='out'><code>     [,1] [,2]
+[1,]    1    4
+[2,]    2    2
+</code></pre></div>
 
-```r
-dim(m)
-```
 
-```
-## [1] 2 2
-```
 
-```r
-m <- matrix(data = 1:12, nrow = 4, ncol = 3,
+<pre class='in'><code>m <- cbind(c(1, 4), c(2, 2))
+m</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>     [,1] [,2]
+[1,]    1    2
+[2,]    4    2
+</code></pre></div>
+
+
+
+<pre class='in'><code>dim(m)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] 2 2
+</code></pre></div>
+
+
+
+<pre class='in'><code>m <- matrix(data = 1:12, nrow = 4, ncol = 3,
             dimnames = list(c("cow1", "cow2", "cow3", "cow4"),
                 c("milk", "fat", "prot")))
-m
-```
+m</code></pre>
 
-```
-##      milk fat prot
-## cow1    1   5    9
-## cow2    2   6   10
-## cow3    3   7   11
-## cow4    4   8   12
-```
+
+
+<div class='out'><pre class='out'><code>     milk fat prot
+cow1    1   5    9
+cow2    2   6   10
+cow3    3   7   11
+cow4    4   8   12
+</code></pre></div>
 
 Matrices are filled column-wise but you can also use the `byrow` argument to
 specify how the matrix is filled.
 
 
-```r
-m <- matrix(1:12, nrow = 4, ncol = 3, byrow = TRUE,
+<pre class='in'><code>m <- matrix(1:12, nrow = 4, ncol = 3, byrow = TRUE,
             dimnames = list(c("cow1", "cow2", "cow3", "cow4"),
                 c("milk", "fat", "prot")))
-m
-```
+m</code></pre>
 
-```
-##      milk fat prot
-## cow1    1   2    3
-## cow2    4   5    6
-## cow3    7   8    9
-## cow4   10  11   12
-```
+
+
+<div class='out'><pre class='out'><code>     milk fat prot
+cow1    1   2    3
+cow2    4   5    6
+cow3    7   8    9
+cow4   10  11   12
+</code></pre></div>
 
 
 ### List
@@ -302,56 +321,51 @@ A list is an ordered collection of objects where the objects can be of
 different modes.
 
 
-```r
-l <- list("a", "b", "c", TRUE, 4)
-```
+<pre class='in'><code>l <- list("a", "b", "c", TRUE, 4)</code></pre>
 
 Each element of a list can be given a name and referred to by that
 name. Elements of a list can be accessed by their number or their name.
 
 
-```r
-cow <- list(breed = "Holstein", age = 3, last.prod = c(25, 35, 32))
-cow$breed
-```
+<pre class='in'><code>cow <- list(breed = "Holstein", age = 3, last.prod = c(25, 35, 32))
+cow$breed</code></pre>
 
-```
-## [1] "Holstein"
-```
 
-```r
-cow[[1]]
-```
 
-```
-## [1] "Holstein"
-```
+<div class='out'><pre class='out'><code>[1] "Holstein"
+</code></pre></div>
+
+
+
+<pre class='in'><code>cow[[1]]</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] "Holstein"
+</code></pre></div>
 
 Lists can be used to hold together multiple values returned from a
 function. For example the elements used to create an histogram can be
 saved and returned:
 
 
-```r
-h <- hist(islands)
-```
+<pre class='in'><code>h <- hist(islands)</code></pre>
 
-![](figure/unnamed-chunk-16.png) 
+<img src="figure/00-obj-R-hist.png" title="plot of chunk hist" alt="plot of chunk hist" style="display: block; margin: auto;" />
 
-```r
-str(h)
-```
+<pre class='in'><code>str(h)</code></pre>
 
-```
-## List of 6
-##  $ breaks  : num [1:10] 0 2000 4000 6000 8000 10000 12000 14000 16000 18000
-##  $ counts  : int [1:9] 41 2 1 1 1 1 0 0 1
-##  $ density : num [1:9] 4.27e-04 2.08e-05 1.04e-05 1.04e-05 1.04e-05 ...
-##  $ mids    : num [1:9] 1000 3000 5000 7000 9000 11000 13000 15000 17000
-##  $ xname   : chr "islands"
-##  $ equidist: logi TRUE
-##  - attr(*, "class")= chr "histogram"
-```
+
+
+<div class='out'><pre class='out'><code>List of 6
+ $ breaks  : num [1:10] 0 2000 4000 6000 8000 10000 12000 14000 16000 18000
+ $ counts  : int [1:9] 41 2 1 1 1 1 0 0 1
+ $ density : num [1:9] 4.27e-04 2.08e-05 1.04e-05 1.04e-05 1.04e-05 ...
+ $ mids    : num [1:9] 1000 3000 5000 7000 9000 11000 13000 15000 17000
+ $ xname   : chr "islands"
+ $ equidist: logi TRUE
+ - attr(*, "class")= chr "histogram"
+</code></pre></div>
 
 The function `str()` is used here. It stands for *structure* and shows
 the internal structure of an R object.
@@ -386,45 +400,42 @@ data. Factors have this information built in.
 Factors can be created with `factor()`. Input is generally a character vector.
 
 
-```r
-breed <- factor(c("Holstein", "Holstein", "Brown Swiss", "Holstein",
+<pre class='in'><code>breed <- factor(c("Holstein", "Holstein", "Brown Swiss", "Holstein",
                   "Ayrshire", "Canadian", "Canadian", "Brown Swiss",
                   "Holstein", "Brown Swiss", "Holstein"))
-breed
-```
+breed</code></pre>
 
-```
-##  [1] Holstein    Holstein    Brown Swiss Holstein    Ayrshire   
-##  [6] Canadian    Canadian    Brown Swiss Holstein    Brown Swiss
-## [11] Holstein   
-## Levels: Ayrshire Brown Swiss Canadian Holstein
-```
+
+
+<div class='out'><pre class='out'><code> [1] Holstein    Holstein    Brown Swiss Holstein    Ayrshire   
+ [6] Canadian    Canadian    Brown Swiss Holstein    Brown Swiss
+[11] Holstein   
+Levels: Ayrshire Brown Swiss Canadian Holstein
+</code></pre></div>
 It stores values as a set of labeled integers. Some functions treat
 factors differently from numeric vectors.
 
 
-```r
-table(breed)
-```
+<pre class='in'><code>table(breed)</code></pre>
 
-```
-## breed
-##    Ayrshire Brown Swiss    Canadian    Holstein 
-##           1           3           2           5
-```
+
+
+<div class='out'><pre class='out'><code>breed
+   Ayrshire Brown Swiss    Canadian    Holstein 
+          1           3           2           5 
+</code></pre></div>
 
 If you need to convert a factor to a character vector, simply use
 
 
-```r
-as.character(breed)
-```
+<pre class='in'><code>as.character(breed)</code></pre>
 
-```
-##  [1] "Holstein"    "Holstein"    "Brown Swiss" "Holstein"    "Ayrshire"   
-##  [6] "Canadian"    "Canadian"    "Brown Swiss" "Holstein"    "Brown Swiss"
-## [11] "Holstein"
-```
+
+
+<div class='out'><pre class='out'><code> [1] "Holstein"    "Holstein"    "Brown Swiss" "Holstein"    "Ayrshire"   
+ [6] "Canadian"    "Canadian"    "Brown Swiss" "Holstein"    "Brown Swiss"
+[11] "Holstein"   
+</code></pre></div>
 
 In modeling functions, it is important to know what the baseline level is.
 This is the first factor but by default the ordering is determined by
@@ -432,15 +443,14 @@ alphabetical order of words entered. You can change this by specifying the
 levels (another option is to use the function `relevel()`).
 
 
-```r
-x <- factor(c("yes", "no", "yes"), levels = c("yes", "no"))
-x
-```
+<pre class='in'><code>x <- factor(c("yes", "no", "yes"), levels = c("yes", "no"))
+x</code></pre>
 
-```
-## [1] yes no  yes
-## Levels: yes no
-```
+
+
+<div class='out'><pre class='out'><code>[1] yes no  yes
+Levels: yes no
+</code></pre></div>
 
 
 ### Array
@@ -450,9 +460,7 @@ columns. These datasets would be arrays. It can be
 created with the `array` function:
 
 
-```r
-a <- array(data = 1:24, dim = c(3, 4, 2))
-```
+<pre class='in'><code>a <- array(data = 1:24, dim = c(3, 4, 2))</code></pre>
 
 
 ### Data frame
@@ -479,25 +487,22 @@ Some additional information on data frames:
 
 
 
-```r
-df <- data.frame(cow = c("Moo-Moo", "Daisy", "Elsie"),
+<pre class='in'><code>df <- data.frame(cow = c("Moo-Moo", "Daisy", "Elsie"),
                  prod = c(35, 40, 28),
-                 pregnant = c(TRUE, FALSE, TRUE))
-```
+                 pregnant = c(TRUE, FALSE, TRUE))</code></pre>
 
 **Combining data frames**
 
 
-```r
-cbind(df, data.frame(z = 4))
-```
+<pre class='in'><code>cbind(df, data.frame(z = 4))</code></pre>
 
-```
-##       cow prod pregnant z
-## 1 Moo-Moo   35     TRUE 4
-## 2   Daisy   40    FALSE 4
-## 3   Elsie   28     TRUE 4
-```
+
+
+<div class='out'><pre class='out'><code>      cow prod pregnant z
+1 Moo-Moo   35     TRUE 4
+2   Daisy   40    FALSE 4
+3   Elsie   28     TRUE 4
+</code></pre></div>
 
 When you combine column wise, only row numbers need to match. If you are adding
 a vector, it will get repeated.
@@ -519,21 +524,21 @@ length.
 See that it is actually a special list:
 
 
-```r
-is.list(df)
-```
+<pre class='in'><code>is.list(df)</code></pre>
 
-```
-## [1] TRUE
-```
 
-```r
-class(df)
-```
 
-```
-## [1] "data.frame"
-```
+<div class='out'><pre class='out'><code>[1] TRUE
+</code></pre></div>
+
+
+
+<pre class='in'><code>class(df)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] "data.frame"
+</code></pre></div>
 
 ---
 
@@ -542,71 +547,68 @@ class(df)
 Denoted by `NA` and/or `NaN` for undefined mathematical operations.
 
 
-```r
-is.na()
-is.nan()
-```
+<pre class='in'><code>is.na()
+is.nan()</code></pre>
 
-check for both.
+Check for both.
 
 NA values have a class. So you can have both an integer NA (`NA_integer_`) and a character NA (`NA_character_`).
 
 `NaN` is also `NA`. But not the other way around.
 
 
-```r
-x <- c(1, 2, NA, 4, 5)
-x
-```
-
-```
-## [1]  1  2 NA  4  5
-```
+<pre class='in'><code>x <- c(1, 2, NA, 4, 5)
+x</code></pre>
 
 
-```r
-is.na(x)  # returns logical
-```
 
-```
-## [1] FALSE FALSE  TRUE FALSE FALSE
-```
-
-```r
-# shows third
-is.nan(x)
-```
-
-```
-## [1] FALSE FALSE FALSE FALSE FALSE
-```
-
-```r
-# none are NaN
-```
+<div class='out'><pre class='out'><code>[1]  1  2 NA  4  5
+</code></pre></div>
 
 
-```r
-x <- c(1, 2, NA, NaN, 4, 5)
-is.na(x)
-```
+<pre class='in'><code>is.na(x)  # returns logical</code></pre>
 
-```
-## [1] FALSE FALSE  TRUE  TRUE FALSE FALSE
-```
 
-```r
-# shows 2 TRUE
-is.nan(x)
-```
 
-```
-## [1] FALSE FALSE FALSE  TRUE FALSE FALSE
-```
+<div class='out'><pre class='out'><code>[1] FALSE FALSE  TRUE FALSE FALSE
+</code></pre></div>
 
-```r
-# shows 1 TRUE
-```
+
+
+<pre class='in'><code># shows third
+is.nan(x)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] FALSE FALSE FALSE FALSE FALSE
+</code></pre></div>
+
+
+
+<pre class='in'><code># none are NaN</code></pre>
+
+
+<pre class='in'><code>x <- c(1, 2, NA, NaN, 4, 5)
+is.na(x)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] FALSE FALSE  TRUE  TRUE FALSE FALSE
+</code></pre></div>
+
+
+
+<pre class='in'><code># shows 2 TRUE
+is.nan(x)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] FALSE FALSE FALSE  TRUE FALSE FALSE
+</code></pre></div>
+
+
+
+<pre class='in'><code># shows 1 TRUE</code></pre>
 
 ---
 

@@ -1,11 +1,11 @@
 ---
 layout: lesson
 root: ../..
-----
+---
 
-```{r setup, cache = F, echo = F}
-library(knitr)
-opts_chunk$set(tidy = F,  fig.align = "center", fig.height = 5, fig.width = 10)
+```{r, include = FALSE}
+source("chunk_options.R")
+opts_chunk$set(fig.path = "figure/03-RR-R-", fig.height = 5, fig.width = 10)
 ```
 
 # Reproducible Research
@@ -25,9 +25,7 @@ Specifically for epidemiologist, you could use the followings packages:
 - [epicalc](http://cran.r-project.org/web/packages/epicalc/index.html) (THA)
 - [epiR](http://cran.r-project.org/web/packages/epiR/index.html) (NZE, vet)
 - [epitools](http://cran.r-project.org/web/packages/epitools/index.html) (USA)
--
-  [EpiContactTrace](http://cran.r-project.org/web/packages/EpiContactTrace/index.html)
--(SWE)
+- [EpiContactTrace](http://cran.r-project.org/web/packages/EpiContactTrace/index.html) (SWE)
 - [EpiEstim](http://cran.r-project.org/web/packages/EpiEstim/index.html) (UK)
 - [EpiModel](http://cran.r-project.org/web/packages/EpiModel/index.html) (USA)
 
@@ -77,7 +75,7 @@ If your plot was made with `ggplot2`, you use:
 
 ```{r, eval = FALSE}
 ggsave("myPlot.pdf")
-```
+```n
 
 ## Saving Commands in R Scripts
 
@@ -210,7 +208,7 @@ se <- sqrt(diag(vcov(mod2)))
 exp(tab)
 ```
 
-## Literate programming with `knitr`
+## Literate programming with knitr
 
 **Basic idea:** Write **data** + **software** + **documentation** (or in this
   case manuscripts, reports) together.
@@ -234,10 +232,9 @@ lesson we will learn reproducible research, which is one of the by products of
 dynamics report generation. However, this process alone will not always
 guarantee reproducibility.
 
-### Installing `knitr`
+### Installing knitr
 
-```coffee
-# Installing knitr is quite easy. 
+```{r, eval = FALSE}
 install.packages("knitr", dependencies = TRUE)
 install.packages("pander") # Pander is a useful package for formatting tables in markdown.
 ```
@@ -269,23 +266,12 @@ of formats.
 * Finally, store the data in a non-proporietary format (e.g. `csv` over
   `xls`). This will ensure that your data will be readable long into the future. 
 
----
-
-**Good and Bad Practices**
-
-Related: See [best practices](../R-basics/best-practices.Rmd) in the
-[R-basics folder](../R-basics/).
-
 ### Creating a basic knitr document
 
 In RStudio, choose new R Markdown file (easiest way) or you can create a new
 text file and save it with extension `.Rmd`.
 
-A basic code chunk looks like this:
-
-```{r, eval = FALSE}
-# some R code
-```
+A basic code chunk looks like [this](file.Rmd).
 
 ---
 
@@ -309,12 +295,9 @@ You can also name your code chunks. This allows you to keep all the code in a
 separate script and just refer to code chunks using meaningful names
 (e.g. data-processing, analysis, model-fitting, visualization, figures, tables)
 
-```{r, eval = FALSE}
-{r, chunk_name}
-```
-
 
 __Some rules on naming chunks__
+
 * Chunk labels are supposed to be unique id’s in a document.  
 * knitr will throw an error if two chunks have the same name.  
 * If no chunk names are given, knitr will simply increment from chunk 1, 2,3 etc.
@@ -344,13 +327,6 @@ original `.Rmd` files, all the changes in the `.md` file will get wiped out.
 Include some text `r mean(1:5)`. 
 ```
 
-### Including formatted tables in markdown
-
-```{r showtable, results="asis", echo = FALSE, message = FALSE, eval = FALSE, warning = FALSE}
-library(pandoc)
-pander(summary(mod2))
-```
-
 ### Global options
 
 Global options are shared across all the following chunks after the location in
@@ -376,7 +352,7 @@ By adding `cache = TRUE` to a code block definition. After the first run,
 results will be cached. We'll discuss better ways to acheive the same thing
 using `Make` in the next section.
 
-### Working with graphics in `knitr`
+### Working with graphics in knitr
 
 If you use `ggplot2` from the data visualization section, you can have that
 easily parsed into your document.

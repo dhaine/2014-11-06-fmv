@@ -1,10 +1,11 @@
 ---
 layout: lesson
 root: ../..
-----
+---
 
 ```{r, include = FALSE}
 source("chunk_options.R")
+opts_chunk$set(fig.path = "figure/01-apply-R-")
 ```
 
 # Learning the apply family of functions
@@ -28,7 +29,7 @@ sapply
 way to get marginal values. It follows this syntax: `apply(object, dimension,
 function)`.
 
-```{r, eval = TRUE}
+```{r}
 m <- matrix(c(1:10, 11:20), nrow = 10, ncol = 2)
 m
 # 1 is the row index
@@ -46,7 +47,7 @@ There are convenience functions based on `apply`: `rowSums(x)`, `colSums(x)`,
 
 `by` applies a function to subsets of a data frame.
 
-```{r, eval = TRUE}
+```{r}
 cow <- data.frame(cow = 1:100,
                   milk = rnorm(100, mean = 30, sd = 9),
                   parity = sample(c("1", "2", "2+"), 100, replace = TRUE),
@@ -60,7 +61,7 @@ by(cow$milk, cow[, "parity"], sum)
 
 `tapply` applies a function to subsets of a vector.
 
-```{r, eval = TRUE}
+```{r}
 tapply(cow$milk, cow$parity, mean)
 kg_to_lb <- function(x){mean(x * 2.205)}
 tapply(cow$milk, cow$parity, kg_to_lb)
@@ -74,7 +75,7 @@ What it does: Returns a list of same length as the input.
 Each element of the output is a result of applying a function to the
 corresponding element.
 
-```{r, eval = TRUE}
+```{r}
 my_list <- list(a = 1:10, b = 2:20)
 my_list
 lapply(my_list, mean)
@@ -88,7 +89,7 @@ matrix where appropriate.
 
 Let's work with the same list we just created.
 
-```{r, eval = TRUE}
+```{r}
 my_list
 x <- sapply(my_list, mean)
 x
@@ -100,7 +101,7 @@ class(x)
 
 An extremely useful function to generate datasets for simulation purposes. 
 
-```{r, eval = TRUE}
+```{r}
 replicate(10, rnorm(10))
 replicate(10, rnorm(10), simplify = TRUE)
 ```
@@ -114,7 +115,7 @@ all corresponding elements of each argument.
 
 example:
 
-```{r, eval = TRUE}
+```{r}
 list_1 <- list(a = c(1:10), b = c(11:20))
 list_1
 list_2 <- list(c = c(21:30), d = c(31:40))
@@ -135,14 +136,14 @@ mapply(sum, list_1$a, list_1$b, list_2$c, list_2$d)
 
 ## aggregate
 
-```{r, eval = TRUE}
+```{r}
 aggregate(milk ~ parity + breed, data = cow, FUN = mean)
 ```
 
 
 ## table
 
-```{r, eval = TRUE}
+```{r}
 t1 <- table(cow$parity)
 t1
 t2 <- table(cow$parity, cow$breed)

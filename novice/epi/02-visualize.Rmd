@@ -1,17 +1,17 @@
 ---
 layout: lesson
 root: ../..
-----
+---
 
-```{r setup, cache = F, echo = F}
-library(knitr)
-opts_chunk$set(tidy = F,  fig.align = "center", fig.height = 5, fig.width = 10)
+```{r, include = FALSE}
+source("chunk_options.R")
+opts_chunk$set(fig.path = "figure/02-viz-R-", fig.height = 5, fig.width = 10)
 ```
 
 # Base Graphics
 
 One of the best parts of R is its plotting capabilities. Take for example the
-following graph
+following graphs
 [visualizing Facebook friends](http://paulbutler.org/archives/visualizing-facebook-friends/),
 [Napoleon's March to Moscow](http://www.datavis.ca/gallery/re-minard.php), or
 this [wind map](http://hint.fm/wind/index.html).
@@ -84,7 +84,7 @@ function in base R. But using it just as a replacement is gross injustice to
 
 __gg__ is for __grammar of graphics__, coined by
 [Leland Wilkinson](https://www.springer.com/statistics/computational+statistics/book/978-0-387-24544-7). What
-is __grammar of graphics__? Let deconstruct the plot below.
+is grammar of graphics? Let deconstruct the plot below.
 
 ```{r}
 ggplot(pig_adg, aes(x = dtm, y = adg)) +

@@ -1,14 +1,14 @@
 ---
 layout: lesson
 root: ../..
-----
+---
 
 
 
 # Base Graphics
 
 One of the best parts of R is its plotting capabilities. Take for example the
-following graph
+following graphs
 [visualizing Facebook friends](http://paulbutler.org/archives/visualizing-facebook-friends/),
 [Napoleon's March to Moscow](http://www.datavis.ca/gallery/re-minard.php), or
 this [wind map](http://hint.fm/wind/index.html).
@@ -36,13 +36,11 @@ pneumonia), ascarid levels and daily weight gain
 book website offers dataset in R format.
 
 
-```r
-temp <- tempfile()
+<pre class='in'><code>temp <- tempfile()
 download.file(
     "http://ic.upei.ca/ver/sites/ic.upei.ca.ver/files/ver2_data_R.zip", temp)
 load(unz(temp, "ver2_data_R/pig_adg.rdata"))
-unlink(temp)
-```
+unlink(temp)</code></pre>
 
 Base graphics use `plot()` function to create a plot. The type of plot depends on
 the `class` of arguments given. `plot(x, y)` will give a scatterplot but if `x` is
@@ -53,24 +51,18 @@ points, `l` for line, ...), `main =` and `sub =` for title and subtitle, `xlab
 =` and `ylab =` for axis labels.
 
 
-```r
-plot(adg ~ dtm, data = pig_adg)
-```
+<pre class='in'><code>plot(adg ~ dtm, data = pig_adg)</code></pre>
 
-<img src="figure/plot1.png" title="plot of chunk plot1" alt="plot of chunk plot1" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-plot1.png" title="plot of chunk plot1" alt="plot of chunk plot1" style="display: block; margin: auto;" />
 
 
-```r
-trend <- lm(adg ~ dtm, data = pig_adg)
-```
+<pre class='in'><code>trend <- lm(adg ~ dtm, data = pig_adg)</code></pre>
 
 
-```r
-plot(adg ~ dtm, data = pig_adg)
-abline(trend)
-```
+<pre class='in'><code>plot(adg ~ dtm, data = pig_adg)
+abline(trend)</code></pre>
 
-<img src="figure/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-unnamed-chunk-3.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
 
 # ggplot2
 
@@ -79,19 +71,18 @@ flexibility to create a wide variety of sophisticated visualizations with little
 code. `ggplot2` plots are more elegant than base graphics.
 
 
-```r
-library(ggplot2)
-```
+<pre class='in'><code>library(ggplot2)</code></pre>
 
-```
-## Loading required package: methods
-```
 
-```r
-qplot(dtm, adg, data = pig_adg, geom = "point")
-```
 
-<img src="figure/unnamed-chunk-3.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
+<div class='out'><pre class='out'><code>Loading required package: methods
+</code></pre></div>
+
+
+
+<pre class='in'><code>qplot(dtm, adg, data = pig_adg, geom = "point")</code></pre>
+
+<img src="figure/02-viz-R-unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
 The `qplot` function pretty much works like a drop-in-replacement for the `plot`
 function in base R. But using it just as a replacement is gross injustice to
@@ -99,16 +90,14 @@ function in base R. But using it just as a replacement is gross injustice to
 
 __gg__ is for __grammar of graphics__, coined by
 [Leland Wilkinson](https://www.springer.com/statistics/computational+statistics/book/978-0-387-24544-7). What
-is __grammar of graphics__? Let deconstruct the plot below.
+is grammar of graphics? Let deconstruct the plot below.
 
 
-```r
-ggplot(pig_adg, aes(x = dtm, y = adg)) +
+<pre class='in'><code>ggplot(pig_adg, aes(x = dtm, y = adg)) +
     geom_point(aes(color = factor(sex))) +
-    geom_smooth(method = 'lm')
-```
+    geom_smooth(method = 'lm')</code></pre>
 
-<img src="figure/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
  There are two sets of elements in this plot:
 
@@ -121,13 +110,11 @@ data on the plot are referred to as `aesthetics`. Some other aesthetics to
 consider are `size`, `shape` etc.
 
 
-```r
-ggplot(pig_adg, aes(x = dtm, y = adg)) +
+<pre class='in'><code>ggplot(pig_adg, aes(x = dtm, y = adg)) +
     geom_point(aes(color = factor(sex), size = ar)) +
-    geom_smooth(method = 'lm')
-```
+    geom_smooth(method = 'lm')</code></pre>
 
-<img src="figure/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 
 __Geometries__
@@ -153,16 +140,14 @@ There are three layers in this plot. A `point` layer, a `line` layer and a
 it in terms of the constituent elements.
 
 
-```r
-layer_point <- geom_point(
+<pre class='in'><code>layer_point <- geom_point(
     mapping = aes(x = dtm, y = adg, color = factor(sex)),
     data = pig_adg,
     size = 3
 )
-ggplot() + layer_point
-```
+ggplot() + layer_point</code></pre>
 
-<img src="figure/layer1.png" title="plot of chunk layer1" alt="plot of chunk layer1" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-layer1.png" title="plot of chunk layer1" alt="plot of chunk layer1" style="display: block; margin: auto;" />
 
 __Exercise__
 
@@ -172,11 +157,9 @@ rhinitis score greater than 1. The cross represents the mean, whci is not
 produced by default in boxplot. Hint to get it: see `stat_summary`.
 
 
-```r
-pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
-```
+<pre class='in'><code>pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))</code></pre>
 
-<img src="figure/pig_boxplot.png" title="plot of chunk pig_boxplot" alt="plot of chunk pig_boxplot" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-pig_boxplot.png" title="plot of chunk pig_boxplot" alt="plot of chunk pig_boxplot" style="display: block; margin: auto;" />
 
 ## Faceting
 
@@ -191,14 +174,12 @@ revisit our scatterplot of `dtm` vs `adg`. We can facet it by the variable `pn`
 using `facet_wrap`.
 
 
-```r
-ggplot(pig_adg, aes(x = dtm, y = adg)) +
+<pre class='in'><code>ggplot(pig_adg, aes(x = dtm, y = adg)) +
     geom_point(aes(color = factor(sex))) +
     geom_smooth(method = 'lm') +
-    facet_wrap(~ pn)
-```
+    facet_wrap(~ pn)</code></pre>
 
-<img src="figure/facet-wrap.png" title="plot of chunk facet-wrap" alt="plot of chunk facet-wrap" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-facet-wrap.png" title="plot of chunk facet-wrap" alt="plot of chunk facet-wrap" style="display: block; margin: auto;" />
 
 Note how `ggplot2` automatically split the data into two subsets and even fitted
 the regression lines by panel. The power of a grammar based approach shines
@@ -207,11 +188,9 @@ through best in such situations.
 We can also facet across two variables using `facet_grid`
 
 
-```r
-ggplot(subset(pig_adg, farm < 5), aes(x = dtm, y = adg)) +
+<pre class='in'><code>ggplot(subset(pig_adg, farm < 5), aes(x = dtm, y = adg)) +
     geom_point() +
     geom_smooth(method = 'lm') +
-    facet_grid(pn ~ farm)
-```
+    facet_grid(pn ~ farm)</code></pre>
 
-<img src="figure/facet-grid.png" title="plot of chunk facet-grid" alt="plot of chunk facet-grid" style="display: block; margin: auto;" />
+<img src="figure/02-viz-R-facet-grid.png" title="plot of chunk facet-grid" alt="plot of chunk facet-grid" style="display: block; margin: auto;" />
