@@ -22,10 +22,10 @@ and to use that language *well*.
 
 <div class="toc" markdown="1">
 
-1.  [Data Structure](01-data-structures.html)
-2.  [Data Manipulation](02-apply-family.html)
-3.  [Data Visualization](03-visualize.html)
-4.  [Reproducible Research](04-RR.html)
+1.  [Data Structure](00-data-structures.html)
+2.  [Data Manipulation](01-apply-family.html)
+3.  [Data Visualization](02-visualize.html)
+4.  [Reproducible Research](03-RR.html)
 
 <a href="../ref/03-r.html">Reference</a>
 </div>
