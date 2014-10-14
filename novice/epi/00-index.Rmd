@@ -41,7 +41,9 @@ data. You will work with [R objects](01-data-structures.html).
 
 ### Exercise
 
-Import the [health](health.csv) dataset. Have a look at the different
+Import the [health](health.csv) dataset. This dataset presents the lactations of
+500 cows from various herds, providing age, lactation number, presence of milk
+fever (`mf`), and displaced abomasum (`da`). Have a look at the different
 variables. What type are they? Would you like to convert any of them to a factor
 variable? How would you do it? How would you create a variable `parity`
 categorizing `lactation` into the categories 1, 2, 3+ (hint: see `?cut`)? check
@@ -64,8 +66,8 @@ health$parity <- cut(health$lactation,
 
 ## Tidying Your Data
 
-You will need to get your data in a certain format to be analyzed so that data
-are easy to analyzed, visualize, and model. Three tools can help you in your
-task: `reshape2`, `stringr`, and `plyr`.
+You will need to get your data in a certain format to be analyzed so that it is
+easy to analyzed, visualize, and model. Three tools can help you in your task:
+`reshape2`, `stringr`, and `plyr`.
 
-[Data Tidying]()
+[Data Tidying](02-tidy.Rmd)
