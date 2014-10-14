@@ -1,0 +1,9 @@
+
+
+		    /-> visualize <-\ 
+	            |		    |
+		    V		    |
+clean -------> transform	    |
+      	       	    ^		    |
+		    |		    |
+	            \->   model   <-/

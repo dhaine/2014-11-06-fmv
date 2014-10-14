@@ -1,0 +1,71 @@
+---
+layout: lesson
+root: ../..
+---
+
+```{r, include = FALSE}
+source("chunk_options.R")
+opts_chunk$set(fig.path = "figure/00-wkfl-R-", fig.height = 5, fig.width = 10)
+```
+
+
+# Workflow for Epidemiological Data Analysis
+
+We saw `R` is a powerful software for data analysis. Contrary to other softwares
+which provide you with ready, fixed, *canned* procedures to perform statistical
+analyses, R always let you have access to all computations' results. R can also be
+extended with *packages*. About 6,000 of them are available via
+[CRAN](http://cran.r-project.org/web/packages/). Furthermore, you can easily
+create your own packages, or functions, to tackle your specific needs and/or
+problems.
+
+Specifically for epidemiologist, you could use the following packages for your
+analyses:
+
+- [Epi](http://cran.r-project.org/web/packages/Epi/index.html) (DAN)
+- [epibasix](http://cran.r-project.org/web/packages/epibasix/index.html) (CAN)
+- [epicalc](http://cran.r-project.org/web/packages/epicalc/index.html) (THA)
+- [epiR](http://cran.r-project.org/web/packages/epiR/index.html) (NZE, vet)
+- [epitools](http://cran.r-project.org/web/packages/epitools/index.html) (USA)
+- [EpiContactTrace](http://cran.r-project.org/web/packages/EpiContactTrace/index.html) (SWE)
+- [EpiEstim](http://cran.r-project.org/web/packages/EpiEstim/index.html) (UK)
+- [EpiModel](http://cran.r-project.org/web/packages/EpiModel/index.html) (USA)
+
+But before using these packages you might well go through these series of steps :
+cleaning, transforming, visualizing, and modeling your data.
+
+![From [Hadley Wickham](http://vita.had.co.nz/papers/tidy-data-pres.pdf)](figure/clean.png)
+
+But first in order to create, manipulate, and make some operations on your
+data. You will work with [R objects](01-data-structures.html).
+
+### Exercise
+
+Import the [health](health.csv) dataset. Have a look at the different
+variables. What type are they? Would you like to convert any of them to a factor
+variable? How would you do it? How would you create a variable `parity`
+categorizing `lactation` into the categories 1, 2, 3+ (hint: see `?cut`)? check
+that it creates factors.
+
+### Solution
+
+```{r import-health}
+health <- read.csv(
+    file = "health.csv",
+    header = TRUE,
+    stringsAsFactors = FALSE)
+
+str(health)
+health$mf <- factor(health$mf, labels = c("No", "Yes"))
+health$parity <- cut(health$lactation,
+                     breaks = c(0, 1, 2, max(health$lactation)),
+                     labels = c("1", "2", "3+"))
+```
+
+## Tidying Your Data
+
+You will need to get your data in a certain format to be analyzed so that data
+are easy to analyzed, visualize, and model. Three tools can help you in your
+task: `reshape2`, `stringr`, and `plyr`.
+
+[Data Tidying]()
