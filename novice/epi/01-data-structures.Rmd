@@ -385,6 +385,34 @@ is.nan(x)
 
 ---
 
+### Exercise
+
+Import the [health](health.csv) dataset. This dataset presents the lactations of
+500 cows from various herds, providing age, lactation number, presence of milk
+fever (`mf`), and displaced abomasum (`da`). Have a look at the different
+variables. What type are they? Would you like to convert any of them to a factor
+variable? How would you do it? How would you create a variable `parity`
+categorizing `lactation` into the categories 1, 2, 3+ (hint: see `?cut`)? check
+that it creates factors.
+
+### Solution
+
+```{r import-health}
+health <- read.csv(
+    file = "health.csv",
+    header = TRUE,
+    stringsAsFactors = FALSE)
+
+str(health)
+health$mf <- factor(health$mf, labels = c("No", "Yes"))
+health$parity <- cut(health$lactation,
+                     breaks = c(0, 1, 2, max(health$lactation)),
+                     labels = c("1", "2", "3+"))
+```
+
+---
+
 # Review of R data types
 
 <img src="data-types.png" width="100%" height="100%">
+

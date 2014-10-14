@@ -1,0 +1,172 @@
+---
+layout: lesson
+root: ../..
+---
+
+```{r, include = FALSE}
+source("chunk_options.R")
+opts_chunk$set(fig.path = "figure/02-tidy-R-", fig.height = 5, fig.width = 10)
+```
+
+# Reshaping Data
+
+Sometimes you have multiple observations per subject, across time or for
+different chacteristics of the subject. It is said the data is in "wide" format
+if there's only one observation/row per subject with each
+measurement/characteristic set a sa different variable. It is in "long" format
+if there,s one observation/row per measurement (i.e. multiple rows per
+subject). Reshaping data is like transposing rows and columns, switching from
+wide to long format and vice versa.
+
+```{r read-data}
+temp <- tempfile()
+download.file(
+    "http://ic.upei.ca/ver/sites/ic.upei.ca.ver/files/ver2_data_R.zip", temp)
+load(unz(temp, "ver2_data_R/pig_adg.rdata"))
+unlink(temp)
+```
+
+Base graphics use `plot()` function to create a plot. The type of plot depends on
+the `class` of arguments given. `plot(x, y)` will give a scatterplot but if `x` is
+a factor, it will give a boxplot. You also have high-level functions like
+`hist()` to create an histogram or `qqnorm()` to get a QQ-plot. You can provide
+additional arguments like `type =` to define the type of plot (`p` for
+points, `l` for line, ...), `main =` and `sub =` for title and subtitle, `xlab
+=` and `ylab =` for axis labels.
+
+```{r plot1}
+plot(adg ~ dtm, data = pig_adg)
+```
+
+```{r}
+trend <- lm(adg ~ dtm, data = pig_adg)
+```
+
+```{r}
+plot(adg ~ dtm, data = pig_adg)
+abline(trend)
+```
+
+# ggplot2
+
+[`ggplot2`](http://docs.ggplot2.org/current/index.html) provides you with the
+flexibility to create a wide variety of sophisticated visualizations with little
+code. `ggplot2` plots are more elegant than base graphics.
+
+```{r}
+library(ggplot2)
+qplot(dtm, adg, data = pig_adg, geom = "point")
+```
+
+The `qplot` function pretty much works like a drop-in-replacement for the `plot`
+function in base R. But using it just as a replacement is gross injustice to
+`ggplot2` which is capable of doing so much more. 
+
+__gg__ is for __grammar of graphics__, coined by
+[Leland Wilkinson](https://www.springer.com/statistics/computational+statistics/book/978-0-387-24544-7). What
+is grammar of graphics? Let deconstruct the plot below.
+
+```{r}
+ggplot(pig_adg, aes(x = dtm, y = adg)) +
+    geom_point(aes(color = factor(sex))) +
+    geom_smooth(method = 'lm')
+```
+
+ There are two sets of elements in this plot:
+
+__Aesthetics__
+
+First, let us focus on the variables `dtm`, `adg` and `sex`. You can see from
+the plot that we have mapped `dtm` to `x`, `adg` to `y` and the color of the
+point to `sex`. These graphical properties `x`, `y` and `sex` that encode the
+data on the plot are referred to as `aesthetics`. Some other aesthetics to
+consider are `size`, `shape` etc.
+
+```{r}
+ggplot(pig_adg, aes(x = dtm, y = adg)) +
+    geom_point(aes(color = factor(sex), size = ar)) +
+    geom_smooth(method = 'lm')
+```
+
+
+__Geometries__
+
+The second element to focus on are the visual elements you can see in the plot
+itself. There are three distinct visual elements in this plot.
+
+- point
+- line
+- ribbon
+
+These actual graphical elements displayed in a plot are referred to as
+`geometries`. Some other `geometries` you might be familiar with are `area`,
+`bar`, `text`.
+
+Another very useful way of thinking about this plot is in terms of `layers`. You
+can think of a `layer` as consisting of `data`, a `mapping` of `aesthetics`, a
+`geometry` to visually display, and sometimes additional parameters to customize
+the display.
+
+There are three layers in this plot. A `point` layer, a `line` layer and a
+`ribbon` layer. `ggplot2` allows you to translate the `layer` exactly as you see
+it in terms of the constituent elements.
+
+```{r layer1}
+layer_point <- geom_point(
+    mapping = aes(x = dtm, y = adg, color = factor(sex)),
+    data = pig_adg,
+    size = 3
+)
+ggplot() + layer_point
+```
+
+__Exercise__
+
+Try to replicate the following plot shown below. You will have to create the
+dichotomous variable `ar_g1` indicating the presence/absence of an atrophic
+rhinitis score greater than 1. The cross represents the mean, whci is not
+produced by default in boxplot. Hint to get it: see `stat_summary`.
+
+```{r}
+pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
+
+```
+
+```{r pig_boxplot, echo = F}
+ggplot(pig_adg, aes(factor(ar_g1), adg)) +
+    geom_boxplot() +
+    geom_jitter(aes(colour = factor(sex))) +
+    stat_summary(fun.y = mean, geom = "point", shape = 3, size = 4)    
+```
+
+## Faceting
+
+When dealing with multivariate data, we often want to display plots for specific
+subsets of data, laid out in a panel. These plots are often referred to as
+small-multiple plots. They are very useful in practice since you only need to
+take your user through one of the plots in the panel, and leave them to
+interpret the others in terms of that.
+
+`ggplot2` supports small-multiple plots using the idea of `facets`. Let us
+revisit our scatterplot of `dtm` vs `adg`. We can facet it by the variable `pn`
+using `facet_wrap`.
+
+```{r facet-wrap}
+ggplot(pig_adg, aes(x = dtm, y = adg)) +
+    geom_point(aes(color = factor(sex))) +
+    geom_smooth(method = 'lm') +
+    facet_wrap(~ pn)
+```
+
+Note how `ggplot2` automatically split the data into two subsets and even fitted
+the regression lines by panel. The power of a grammar based approach shines
+through best in such situations.
+
+We can also facet across two variables using `facet_grid`
+
+```{r facet-grid}
+ggplot(subset(pig_adg, farm < 5), aes(x = dtm, y = adg)) +
+    geom_point() +
+    geom_smooth(method = 'lm') +
+    facet_grid(pn ~ farm)
+```
