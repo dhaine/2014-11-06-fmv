@@ -365,3 +365,53 @@ inch):
 ```
 pandoc -V geometry:margin=1in test.md -o test.pdf
 ```
+
+---
+
+# Workflow
+
+You could imagine splitting the different analytic operations (loading your
+data, tidying it, visualizing your data, and running your analysis) into
+different `R` scripts that you could `source` from a "master" script. These
+scripts could even be inserted into a `R markdown` or `LaTeX` file.
+
+```{r master, eval = FALSE}
+source("load.R")
+source("tidy.R")
+source("analyze.R")
+```
+
+```{r load, eval = FALSE}
+# load
+health <- read.csv(
+    file = "health.csv",
+    header = TRUE,
+    stringsAsFactors = FALSE)
+
+health$parity <- cut(health$lactation,
+                     breaks = c(0, 1, max(health$lactation)),
+                     labels = c("1", "2+"))
+```
+
+```{r tidy, eval = FALSE}
+# tidy
+library(reshape2)
+health.wide <- dcast(
+    data = health,
+    formula = unique + age + lactation + parity ~ disease,
+    value.var = "presence"
+    )
+```
+
+```{r analyze, eval = FALSE}
+# analyze
+library(epicalc)
+with(health.wide, cc(da, parity,
+   decimal = 2,
+   graph = FALSE, 
+   original = TRUE,
+   design = "cohort",
+   alpha = .05,
+   fisher.or = FALSE, 
+   exact.ci.or = TRUE))
+```
