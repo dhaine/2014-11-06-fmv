@@ -30,22 +30,6 @@ system in R. Higher-level graphics packages like
 [`lattice`](https://www.springer.com/new+%26+forthcoming+titles+%28default%29/book/978-0-387-75968-5)
 and `ggplot2` are also commonly used. `ggplot2` will be covered next.
 
-We will use the [pig_adg](http://www.upei.ca/ver/datasets-programs) dataset from
-the [VER](http://www.upei.ca/ver/welcome) book by Ian Dohoo et al. These are
-data on growth performance and abattoir findings of pigs, studying the
-inter-relationships among respiratory diseases (atrophic rhinitis and enzootic
-pneumonia), ascarid levels and daily weight gain
-([Bernardo, Dohoo, and Donald](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1255650/)). The
-book website offers dataset in R format.
-
-```{r read-data}
-temp <- tempfile()
-download.file(
-    "http://ic.upei.ca/ver/sites/ic.upei.ca.ver/files/ver2_data_R.zip", temp)
-load(unz(temp, "ver2_data_R/pig_adg.rdata"))
-unlink(temp)
-```
-
 Base graphics use `plot()` function to create a plot. The type of plot depends on
 the `class` of arguments given. `plot(x, y)` will give a scatterplot but if `x` is
 a factor, it will give a boxplot. You also have high-level functions like
@@ -55,15 +39,15 @@ points, `l` for line, ...), `main =` and `sub =` for title and subtitle, `xlab
 =` and `ylab =` for axis labels.
 
 ```{r plot1}
-plot(adg ~ dtm, data = pig_adg)
+plot(milk ~ dim, data = prod.long)
 ```
 
 ```{r}
-trend <- lm(adg ~ dtm, data = pig_adg)
+trend <- lm(milk ~ dim, data = prod.long)
 ```
 
 ```{r}
-plot(adg ~ dtm, data = pig_adg)
+plot(milk ~ dim, data = prod.long)
 abline(trend)
 ```
 
@@ -75,7 +59,7 @@ code. `ggplot2` plots are more elegant than base graphics.
 
 ```{r}
 library(ggplot2)
-qplot(dtm, adg, data = pig_adg, geom = "point")
+qplot(dim, milk, data = prod.long, geom = "point")
 ```
 
 The `qplot` function pretty much works like a drop-in-replacement for the `plot`
@@ -84,11 +68,13 @@ function in base R. But using it just as a replacement is gross injustice to
 
 __gg__ is for __grammar of graphics__, coined by
 [Leland Wilkinson](https://www.springer.com/statistics/computational+statistics/book/978-0-387-24544-7). What
-is grammar of graphics? Let deconstruct the plot below.
+is grammar of graphics? Let deconstruct the plot below (and adding some
+variables by merging it to the health data set).
 
 ```{r}
-ggplot(pig_adg, aes(x = dtm, y = adg)) +
-    geom_point(aes(color = factor(sex))) +
+dairy <- merge(prod.long, health.wide, by = "unique")
+ggplot(dairy, aes(x = dim, y = milk)) +
+    geom_point(aes(color = parity)) +
     geom_smooth(method = 'lm')
 ```
 
@@ -103,8 +89,8 @@ data on the plot are referred to as `aesthetics`. Some other aesthetics to
 consider are `size`, `shape` etc.
 
 ```{r}
-ggplot(pig_adg, aes(x = dtm, y = adg)) +
-    geom_point(aes(color = factor(sex), size = ar)) +
+ggplot(dairy, aes(x = dim, y = milk)) +
+    geom_point(aes(color = parity, shape = mf)) +
     geom_smooth(method = 'lm')
 ```
 
@@ -133,8 +119,8 @@ it in terms of the constituent elements.
 
 ```{r layer1}
 layer_point <- geom_point(
-    mapping = aes(x = dtm, y = adg, color = factor(sex)),
-    data = pig_adg,
+    mapping = aes(x = dim, y = milk, color = parity),
+    data = dairy,
     size = 3
 )
 ggplot() + layer_point
@@ -142,10 +128,8 @@ ggplot() + layer_point
 
 __Exercise__
 
-Try to replicate the following plot shown below. You will have to create the
-dichotomous variable `ar_g1` indicating the presence/absence of an atrophic
-rhinitis score greater than 1. The cross represents the mean, whci is not
-produced by default in boxplot. Hint to get it: see `stat_summary`.
+Try to replicate the following plot shown below. The cross represents the mean,
+which is not produced by default in boxplot. Hint to get it: see `stat_summary`.
 
 ```{r}
 pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
@@ -153,9 +137,9 @@ pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
 ```
 
 ```{r pig_boxplot, echo = F}
-ggplot(pig_adg, aes(factor(ar_g1), adg)) +
+ggplot(dairy, aes(mf, milk)) +
     geom_boxplot() +
-    geom_jitter(aes(colour = factor(sex))) +
+    geom_jitter(aes(colour = parity), alpha = .5) +
     stat_summary(fun.y = mean, geom = "point", shape = 3, size = 4)    
 ```
 
@@ -168,14 +152,14 @@ take your user through one of the plots in the panel, and leave them to
 interpret the others in terms of that.
 
 `ggplot2` supports small-multiple plots using the idea of `facets`. Let us
-revisit our scatterplot of `dtm` vs `adg`. We can facet it by the variable `pn`
+revisit our scatterplot of `dim` vs `milk`. We can facet it by the variable `mf`
 using `facet_wrap`.
 
 ```{r facet-wrap}
-ggplot(pig_adg, aes(x = dtm, y = adg)) +
-    geom_point(aes(color = factor(sex))) +
+ggplot(dairy, aes(x = dim, y = milk)) +
+    geom_point(aes(color = parity)) +
     geom_smooth(method = 'lm') +
-    facet_wrap(~ pn)
+    facet_wrap(~ mf)
 ```
 
 Note how `ggplot2` automatically split the data into two subsets and even fitted
@@ -185,8 +169,8 @@ through best in such situations.
 We can also facet across two variables using `facet_grid`
 
 ```{r facet-grid}
-ggplot(subset(pig_adg, farm < 5), aes(x = dtm, y = adg)) +
+ggplot(dairy, aes(x = dim, y = milk)) +
     geom_point() +
     geom_smooth(method = 'lm') +
-    facet_grid(pn ~ farm)
+    facet_grid(mf ~ parity)
 ```
