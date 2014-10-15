@@ -5,7 +5,7 @@ root: ../..
 
 ```{r, include = FALSE}
 source("chunk_options.R")
-opts_chunk$set(fig.path = "figure/02-viz-R-", fig.height = 5, fig.width = 10)
+opts_chunk$set(fig.path = "figure/04-viz-R-", fig.height = 5, fig.width = 10)
 ```
 
 # Base Graphics
