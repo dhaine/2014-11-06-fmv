@@ -41,8 +41,16 @@ prod.long <- melt(
     data = prod,
     id = "unique",
     measure.vars = 2:11,
-    variable.name = "month",
+    variable.name = "test",
     value.name = "milk"
+    )
+
+prod.long2 <- melt(
+    data = prod,
+    id = "unique",
+    measure.vars = 12:21,
+    variable.name = "test",
+    value.name = "dim"
     )
 ```
 
@@ -96,11 +104,12 @@ and it would be more interesting to order columns with `arrange` function:
 
 ```{r mutate}
 library(plyr)
-prod.long <- mutate(prod.long,
-    month = sub("milk.", "", month)
-                    )
+prod.long <- mutate(prod.long, test = sub("milk.", "", test))
+prod.long2 <- mutate(prod.long2, test = sub("dim.", "", test))
 
-prod.long <- arrange(prod.long, unique, month)
+prod.long <- join(prod.long, prod.long2, by = c("unique", "test"))
+
+prod.long <- arrange(prod.long, unique, test)
 ```
 
 ## Exercise
