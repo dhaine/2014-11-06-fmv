@@ -127,7 +127,7 @@ mapply(sum, list_1$a, list_1$b, list_2$c, list_2$d)
 ---
 
 * `apply` functions are more computationally efficient than loops
-* you could also use `reshape` and
+* you could also use `reshape2` and
   [`plyr`](http://plyr.had.co.nz/)/[`dplyr`](http://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
   packages
 
@@ -156,3 +156,45 @@ prop.table(t2, margin = 2)
 
 See also `xtabs()`, `ftable()` or `CrossTable()` (in library `gmodels`).
 
+### Exercise
+
+With the wide format `health` dataset you created, what is the median cow age in
+each herd?
+
+
+### Solution
+
+```{r}
+aggregate(age ~ herd, data = health.wide, FUN = median)
+```
+
+---
+
+## Split-Apply-Combine in Action
+
+The following figure can give you a sense of what is split-apply-combine.
+
+![](split.png)
+
+`plyr` package cna be used to apply the split-apply-combine strategy. You need
+to provide the follwoing information:
+
+1. The data structure of the input
+2. The dataset being worked on
+3. The variable to split the dataset on.
+4. The function to apply to each split piece.
+5. The data structure of the output to combine pieces.
+
+In short, `plyr` synthetizes the entire `*apply` family. For example, the mean
+age by herd and parity could be computed and saved into a data frame:
+
+```{r}
+lact <- ddply(health.wide,
+              .(herd, parity),
+              summarize,
+              mean.age = mean(age)
+              )
+```
+
+Two other packages can also be helpful in applying this strategyL `dplyr` and
+`data.table`.
