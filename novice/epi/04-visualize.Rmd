@@ -131,11 +131,6 @@ __Exercise__
 Try to replicate the following plot shown below. The cross represents the mean,
 which is not produced by default in boxplot. Hint to get it: see `stat_summary`.
 
-```{r}
-pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
-
-```
-
 ```{r pig_boxplot, echo = F}
 ggplot(dairy, aes(mf, milk)) +
     geom_boxplot() +
