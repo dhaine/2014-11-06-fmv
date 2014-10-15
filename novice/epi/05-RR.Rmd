@@ -5,7 +5,7 @@ root: ../..
 
 ```{r, include = FALSE}
 source("chunk_options.R")
-opts_chunk$set(fig.path = "figure/03-RR-R-", fig.height = 5, fig.width = 10)
+opts_chunk$set(fig.path = "figure/05-RR-R-", fig.height = 5, fig.width = 10)
 ```
 
 # Reproducible Research
@@ -18,39 +18,10 @@ extended with *packages*. About 6,000 of them are available via
 create your own packages, or functions, to tackle your specific needs and/or
 problems.
 
-Specifically for epidemiologist, you could use the followings packages:
-
-- [Epi](http://cran.r-project.org/web/packages/Epi/index.html) (DAN)
-- [epibasix](http://cran.r-project.org/web/packages/epibasix/index.html) (CAN)
-- [epicalc](http://cran.r-project.org/web/packages/epicalc/index.html) (THA)
-- [epiR](http://cran.r-project.org/web/packages/epiR/index.html) (NZE, vet)
-- [epitools](http://cran.r-project.org/web/packages/epitools/index.html) (USA)
-- [EpiContactTrace](http://cran.r-project.org/web/packages/EpiContactTrace/index.html) (SWE)
-- [EpiEstim](http://cran.r-project.org/web/packages/EpiEstim/index.html) (UK)
-- [EpiModel](http://cran.r-project.org/web/packages/EpiModel/index.html) (USA)
-
 All good but you have to be able to reproduce your analysis, redo your figures
 and tables i.e. have availabe te computer code which produce your research
 results (more on that for example in
 [Peng et al.](http://aje.oxfordjournals.org/content/163/9/783)). 
-
-We will use the [pig_adg](http://www.upei.ca/ver/datasets-programs) dataset from
-the [VER](http://www.upei.ca/ver/welcome) book by Ian Dohoo et al. These are
-data on growth performance and abattoir findings of pigs, studying the
-inter-relationships among respiratory diseases (atrophic rhinitis and enzootic
-pneumonia), ascarid levels and daily weight gain
-([Bernardo, Dohoo, and Donald](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1255650/)). The
-book website offers dataset in R format.
-
-```{r read-data}
-temp <- tempfile()
-download.file(
-    "http://ic.upei.ca/ver/sites/ic.upei.ca.ver/files/ver2_data_R.zip", temp)
-load(unz(temp, "ver2_data_R/pig_adg.rdata"))
-unlink(temp)
-
-pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
-```
 
 ## Saving Figures to File
 
@@ -94,19 +65,19 @@ source('myScript.R')
 
 You can also `sink()` or `capture.output` selected results from your source file
 to an output file. For example if our source file produce summary statistcs from
-`pig_adg`:
+`dairy`:
 
 ```{r, eval = FALSE}
-pig.sum <- summary(pig_adg)
+dairy.sum <- summary(dairy)
 sink("summary.log")
 cat("My summary stats", fill = TRUE)
-show(pig.sum)
+show(dairy.sum)
 sink()
 ```
 
 ```{r, eval = FALSE}
-pig.sum <- summary(pig_adg)
-capture.output({pig.sum}, file = "summary.txt")
+dairy.sum <- summary(dairy)
+capture.output({dairy.sum}, file = "summary.txt")
 ```
 
 You can even source several `R` scripts into your main source file, like functions
@@ -118,16 +89,8 @@ Next, you can also run your script from the command line. For example save the
 following as an `R` script:
 
 ```{r, eval = FALSE}
-temp <- tempfile()
-download.file(
-    "http://ic.upei.ca/ver/sites/ic.upei.ca.ver/files/ver2_data_R.zip", temp)
-load(unz(temp, "ver2_data_R/pig_adg.rdata"))
-unlink(temp)
-
-pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
-
 library(epicalc)
-with(pig_adg, cc(pn, ar_g1,
+with(health.wide, cc(da, parity,
    decimal = 2,
    graph = FALSE, 
    original = TRUE,
@@ -136,7 +99,7 @@ with(pig_adg, cc(pn, ar_g1,
    fisher.or = FALSE, 
    exact.ci.or = TRUE))
 
-with(pig_adg, mhor(pn, ar_g1, sex,
+with(health.wide, mhor(da, parity, mf,
                design = "cohort",
                decimal = 2,
                graph = FALSE))
@@ -162,22 +125,35 @@ docx: `pandoc -s -S yourScript.md -o results.docx` (note: you might not
 have `pandoc` installed on your computer).
 
 ```{r, eval = FALSE}
-#' Pig Pneumonia
+#' Displaced Abomasum
 
 #+ echo=FALSE
-temp <- tempfile()
-download.file(
-    "http://ic.upei.ca/ver/sites/ic.upei.ca.ver/files/ver2_data_R.zip", temp)
-load(unz(temp, "ver2_data_R/pig_adg.rdata"))
-unlink(temp)
-pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
+health <- read.csv(
+    file = "health.csv",
+    header = TRUE,
+    stringsAsFactors = FALSE)
+health$presence <- factor(health$presence, labels = c("No", "Yes"))
+health$parity <- cut(health$lactation,
+                     breaks = c(0, 1, max(health$lactation)),
+                     labels = c("1", "2+"))
+library(reshape2)
+health.wide <- dcast(
+    data = health,
+    formula = unique + age + lactation + parity ~ disease,
+    value.var = "presence"
+    )
+library(stringr)
+health.wide$id <- str_split_fixed(health.wide$unique, "-", 2)
+health.wide$herd <- health.wide$id[, 1]
+health.wide$cow <- health.wide$id[, 2]
+health.wide$da <- with(health.wide, ifelse(da == "No", 0, 1))
 
 #' The results of the logistic regression are the following:
 
 #+ log, echo=FALSE
-mod1 <- glm(pn ~ ar_g1,
+mod1 <- glm(da ~ parity,
              family = binomial("logit"),
-             data = pig_adg)  # "logit" can be omitted as it is the default
+             data = health.wide)  # "logit" can be omitted as it is the default
 
 #+ log-sum
 summary(mod1)
@@ -186,18 +162,11 @@ summary(mod1)
 You can also use `stitch()` which insert the `R` code into a predefined template
 and create a simple report (`Rscript -e "knitr::stitch_rhtml(yourScript.R')`):
 
-```{r, eval = FALSE}
-temp <- tempfile()
-download.file(
-    "http://ic.upei.ca/ver/sites/ic.upei.ca.ver/files/ver2_data_R.zip", temp)
-load(unz(temp, "ver2_data_R/pig_adg.rdata"))
-unlink(temp)
-pig_adg$ar_g1 <- with(pig_adg, ifelse(ar > 1, 1, 0))
-
+```{r, echo = FALSE, eval = FALSE}
 library(lme4)
-mod2 <- glmer(pn ~ ar_g1 + (1|farm),
+mod2 <- glmer(da ~ parity + (1|herd),
               family = binomial,
-              data = pig_adg)
+              data = health.wide)
 summary(mod2)
 
 se <- sqrt(diag(vcov(mod2)))
