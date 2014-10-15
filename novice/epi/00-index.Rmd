@@ -32,9 +32,10 @@ analyses:
 - [EpiModel](http://cran.r-project.org/web/packages/EpiModel/index.html) (USA)
 
 But before using these packages you might well go through these series of steps :
-cleaning, transforming, visualizing, and modeling your data.
+cleaning, transforming, visualizing, and modeling your data (from
+[Hadley Wickham](http://vita.had.co.nz/papers/tidy-data-pres.pdf)).
 
-![From [Hadley Wickham](http://vita.had.co.nz/papers/tidy-data-pres.pdf)](figure/clean.png)
+![](clean.png)
 
 But first in order to create, manipulate, and make some operations on your
 data. You will work with [R objects](01-data-structures.html).
@@ -46,7 +47,7 @@ You will need to get your data in a certain format to be analyzed so that it is
 easy to analyzed, visualize, and model. Three tools can help you in your task:
 `reshape2`, `stringr`, and `plyr`.
 
-[Data Tidying](02-tidy.Rmd)
+[Data Tidying](02-tidy.html)
 
 
 ## Transforming Your Data
@@ -59,7 +60,7 @@ interested in, apply a function on them, and then combine them back together.
 
 ## Visualizing Your Data
 
-[Visualizing](04-visualization.html)
+[Visualizing](04-visualize.html)
 
 ## Reproducible Research and Workflow
 

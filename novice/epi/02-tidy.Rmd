@@ -8,6 +8,18 @@ source("chunk_options.R")
 opts_chunk$set(fig.path = "figure/02-tidy-R-", fig.height = 5, fig.width = 10)
 ```
 
+```{r, echo=FALSE}
+health <- read.csv(
+    file = "health.csv",
+    header = TRUE,
+    stringsAsFactors = FALSE)
+
+health$presence <- factor(health$presence, labels = c("No", "Yes"))
+health$parity <- cut(health$lactation,
+                     breaks = c(0, 1, max(health$lactation)),
+                     labels = c("1", "2+"))
+```
+
 # Reshaping Data
 
 Sometimes you have multiple observations per subject, across time or for
