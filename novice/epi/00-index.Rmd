@@ -47,3 +47,20 @@ easy to analyzed, visualize, and model. Three tools can help you in your task:
 `reshape2`, `stringr`, and `plyr`.
 
 [Data Tidying](02-tidy.Rmd)
+
+
+## Transforming Your Data
+
+You will need to transform your data to get the output you want. Very often it
+can be summarized like this: you split your data into the piece you're
+interested in, apply a function on them, and then combine them back together.
+
+[Apply family](03-apply-family.html)
+
+## Visualizing Your Data
+
+[Visualizing](04-visualization.html)
+
+## Reproducible Research and Workflow
+
+[Reproducible Research](05-RR.html)
