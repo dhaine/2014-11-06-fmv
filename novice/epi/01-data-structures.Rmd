@@ -64,15 +64,6 @@ z <- c(1L, 2L, 3L)
 typeof(z)
 ```
 
-R has many data structures. These include
-
-* atomic vector
-* list
-* matrix
-* data frame
-* factors
-* tables
-
 Below is a short definition  and quick example of each of these data
 structures which you can use to decide which is the best for
 representing your data in R.
@@ -99,7 +90,7 @@ x1 <- c(1L, 2L, 5L)
 
 You can also have logical vectors. 
 
-```{rE}
+```{r}
 y <- c(TRUE, TRUE, FALSE, FALSE)
 ```
 
@@ -148,7 +139,7 @@ seq(from = 5, to = 25, by = 5)
 0/0
 ```
 
-Each object can have attributes. Attribues can be part of an object of R. These
+Each object can have attributes. Attributes can be part of an object of R. These
 include: 
 
 * names
@@ -220,8 +211,8 @@ the internal structure of an R object.
 
 ### Factor
 Factor is a special type of vector to store categorical values. They can be
-ordered or unordered and are important when for modelling functions such as
-`lm()` and `glm()` and also in plot methods.
+ordered or unordered and are important for modelling functions such as
+`lm()` and `glm()`, and also in plot methods.
 
 Factors can only contain pre-defined values.
 
@@ -235,7 +226,7 @@ Sometimes factors can be left unordered. Example: `male`, `female`.
 Other times you might want factors to be ordered (or ranked). Example: `low`,
 `medium`, `high`.
 
-Underlying it's represented by numbers 1, 2, 3.
+Underlying it is represented by numbers 1, 2, 3.
 
 They are better than using simple integer labels because factors are what are
 called self describing. `male` and `female` is more descriptive than `1`s and
@@ -252,7 +243,7 @@ breed <- factor(c("Holstein", "Holstein", "Brown Swiss", "Holstein",
                   "Holstein", "Brown Swiss", "Holstein"))
 breed
 ```
-It stores values as a set of labeled integers. Some functions treat
+It stores values as a set of labelled integers. Some functions treat
 factors differently from numeric vectors.
 
 ```{r}
@@ -265,7 +256,7 @@ If you need to convert a factor to a character vector, simply use
 as.character(breed)
 ```
 
-In modeling functions, it is important to know what the baseline level is.
+In modelling functions, it is important to know what the baseline level is.
 This is the first factor but by default the ordering is determined by
 alphabetical order of words entered. You can change this by specifying the
 levels (another option is to use the function `relevel()`).
@@ -359,7 +350,8 @@ is.nan()
 
 Check for both.
 
-NA values have a class. So you can have both an integer NA (`NA_integer_`) and a character NA (`NA_character_`).
+NA values have a class. So you can have both an integer NA (`NA_integer_`) and a
+character NA (`NA_character_`).
 
 `NaN` is also `NA`. But not the other way around.
 
@@ -385,7 +377,7 @@ is.nan(x)
 
 ---
 
-### Exercise
+### Exercise 1
 
 Import the [health](health.csv) dataset. This dataset presents the lactations of
 500 cows from various herds, providing age, lactation number, presence of milk
@@ -408,6 +400,28 @@ health$presence <- factor(health$presence, labels = c("No", "Yes"))
 health$parity <- cut(health$lactation,
                      breaks = c(0, 1, max(health$lactation)),
                      labels = c("1", "2+"))
+```
+
+### Exercise 2
+
+Three hundred and thirty-three cows are milked by a milker wearing gloves and
+280 by a milker not wearing gloves. Two hundred cows in each group developed a
+mastitis. Create the following table and perform a chi-squared test (hint:
+`chisq.test`).
+
+|           | Mastitis | No mastitis |
+|:---------:|:--------:|:-----------:|
+| Gloves    |: 200    :|: 133       :|
+| No gloves |: 200    :|: 80        :|
+
+### Solution
+
+```{r}
+tab <- rbind(c(200, 133), c(200, 80))
+rownames(tab) <- c("Gloves", "No gloves")
+colnames(tab) <- c("Mastitis", "No mastitis")
+tab
+chisq.test(tab)
 ```
 
 ---
