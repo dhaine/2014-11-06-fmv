@@ -139,9 +139,9 @@ ggplot(dairy, aes(x = dim, y = milk)) +
 
 __Aesthetics__
 
-First, let us focus on the variables `dtm`, `adg` and `sex`. You can see from
-the plot that we have mapped `dtm` to `x`, `adg` to `y` and the color of the
-point to `sex`. These graphical properties `x`, `y` and `sex` that encode the
+First, let us focus on the variables `dim`, `milk` and `parity`. You can see from
+the plot that we have mapped `dim` to `x`, `milk` to `y` and the color of the
+point to `parity`. These graphical properties `x`, `y` and `parity` that encode the
 data on the plot are referred to as `aesthetics`. Some other aesthetics to
 consider are `size`, `shape` etc.
 
