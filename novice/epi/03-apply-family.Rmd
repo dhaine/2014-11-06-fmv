@@ -42,13 +42,18 @@ prod.long2 <- melt(
     value.name = "dim"
     )
 
+prod.l1 <- melt(prod, id = "unique")
+library(stringr)
+prod.l1 <- transform(prod.l1, month = str_replace(variable, "^.*\\.", ""),
+                    variable = str_replace(variable, "\\..*$", ""))
+prod.l2 <- dcast(prod.l1, unique + month ~ variable)
+
 health.wide <- dcast(
     data = health,
     formula = unique + age + lactation + parity ~ disease,
     value.var = "presence"
     )
 
-library(stringr)
 health.wide$id <- str_split_fixed(health.wide$unique, "-", 2)
 health.wide$herd <- health.wide$id[, 1]
 health.wide$cow <- health.wide$id[, 2]
@@ -105,23 +110,25 @@ There are convenience functions based on `apply`: `rowSums(x)`, `colSums(x)`,
 `by` applies a function to subsets of a data frame.
 
 ```{r}
-cow <- data.frame(cow = 1:100,
-                  milk = rnorm(100, mean = 30, sd = 9),
-                  parity = sample(c("1", "2", "2+"), 100, replace = TRUE),
-                  breed = sample(c("HO", "JE", "AY", "BS"), 100, replace = TRUE))
-by(cow$milk, cow[, "parity"], summary)
-by(cow$milk, cow[, "parity"], sum)
+by(prod.long$milk, prod.long[, "test"], summary)
 ```
 
+### Exercise 1
+Using `by`, what is the mean milk production for each monthly test? (use the
+`prod.long` dataset)
+
+### Solution
+
+```{r}
+by(prod.long$milk, prod.long[, "test"], function(x) mean(x, na.rm = TRUE))
+```
 
 ## tapply
 
 `tapply` applies a function to subsets of a vector.
 
 ```{r}
-tapply(cow$milk, cow$parity, mean)
-kg_to_lb <- function(x){mean(x * 2.205)}
-tapply(cow$milk, cow$parity, kg_to_lb)
+tapply(health.wide$age, health.wide$lactation, mean)
 ```
 
 `tapply()` returns an array; `by()`returns a list. 
@@ -194,16 +201,16 @@ mapply(sum, list_1$a, list_1$b, list_2$c, list_2$d)
 ## aggregate
 
 ```{r}
-aggregate(milk ~ parity + breed, data = cow, FUN = mean)
+aggregate(age ~ lactation + da, data = health.wide, FUN = mean)
 ```
 
 
 ## table
 
 ```{r}
-t1 <- table(cow$parity)
+t1 <- table(health.wide$parity)
 t1
-t2 <- table(cow$parity, cow$breed)
+t2 <- table(health.wide$parity, health.wide$da)
 t2
 
 prop.table(t1)
@@ -213,16 +220,32 @@ prop.table(t2, margin = 2)
 
 See also `xtabs()`, `ftable()` or `CrossTable()` (in library `gmodels`).
 
-### Exercise
+### Exercise 2
 
-With the wide format `health` dataset you created, what is the median cow age in
-each herd?
+From the lesson on `R` objects, you created a matrix based on the following:
+Three hundred and thirty-three cows are milked by a milker wearing gloves and
+280 by a milker not wearing gloves. Two hundred cows in each group developed a
+mastitis. Using the `apply` family of functions, find out the risk ratio and
+odds ratio for mastitis according to wearing gloves.
 
+|           | Mastitis | No mastitis |
+|:---------:|:--------:|:-----------:|
+| Gloves    |: 200    :|: 133       :|
+| No gloves |: 200    :|: 80        :|
 
 ### Solution
 
 ```{r}
-aggregate(age ~ herd, data = health.wide, FUN = median)
+tab <- rbind(c(200, 133), c(200, 80))
+rownames(tab) <- c("Gloves", "No gloves")
+colnames(tab) <- c("Mastitis", "No mastitis")
+
+row.tot <- apply(tab, 1, sum)
+risk <- tab[, "Mastitis"] / row.tot
+risk.ratio <- risk / risk[2]
+odds <- risk / (1 - risk)
+odds.ratio <- odds / odds[2]
+rbind(risk, risk.ratio, odds, odds.ratio)
 ```
 
 ---
@@ -233,8 +256,8 @@ The following figure can give you a sense of what is split-apply-combine.
 
 ![](split.png)
 
-`plyr` package cna be used to apply the split-apply-combine strategy. You need
-to provide the follwoing information:
+`plyr` package can be used to apply the split-apply-combine strategy. You need
+to provide the following information:
 
 1. The data structure of the input
 2. The dataset being worked on
