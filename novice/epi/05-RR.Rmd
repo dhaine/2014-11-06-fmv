@@ -71,13 +71,13 @@ dairy <- merge(prod.long, health.wide, by = "unique")
 We saw `R` is a powerful software for data analysis. Contrary to other softwares
 which provide you with ready, fixed, *canned* procedures to perform statistical
 analyses, R always let you have access to all computations' results. R can also be
-extended with *packages*. About 6,000 of them are available via
+extended with *packages*. More than 6,000 of them are available via
 [CRAN](http://cran.r-project.org/web/packages/). Furthermore, you can easily
 create your own packages, or functions, to tackle your specific needs and/or
 problems.
 
 All good but you have to be able to reproduce your analysis, redo your figures
-and tables i.e. have availabe te computer code which produce your research
+and tables i.e. have available the computer code which produce your research
 results (more on that for example in
 [Peng et al.](http://aje.oxfordjournals.org/content/163/9/783)). 
 
@@ -104,7 +104,7 @@ If your plot was made with `ggplot2`, you use:
 
 ```{r, eval = FALSE}
 ggsave("myPlot.pdf")
-```n
+```
 
 ## Saving Commands in R Scripts
 
@@ -189,7 +189,7 @@ have `pandoc` installed on your computer).
 health <- read.csv(
     file = "health.csv",
     header = TRUE,
-    stringsAsFactors = FALSE)
+    stringnsAsFactors = FALSE)
 health$presence <- factor(health$presence, labels = c("No", "Yes"))
 health$parity <- cut(health$lactation,
                      breaks = c(0, 1, max(health$lactation)),
@@ -218,7 +218,7 @@ summary(mod1)
 ```
 
 You can also use `stitch()` which insert the `R` code into a predefined template
-and create a simple report (`Rscript -e "knitr::stitch_rhtml(yourScript.R')`):
+and create a simple report (`Rscript -e "knitr::stitch_rhtml(yourScript.R')`).
 
 ```{r, echo = FALSE, eval = FALSE}
 library(lme4)
@@ -263,7 +263,6 @@ guarantee reproducibility.
 
 ```{r, eval = FALSE}
 install.packages("knitr", dependencies = TRUE)
-install.packages("pander") # Pander is a useful package for formatting tables in markdown.
 ```
 
 Knitr supports a variety of documentation formats including `markdown`, `html`
@@ -273,7 +272,7 @@ and `LaTeX`. It also allows for easy export to `PDF` and `HTML`.
 
 Markdown is an incredibly simple semantic file format, not too dissimilar from
 .doc, .rtf, or .txt. Markdown makes it easy for even those without significant
-knowledge of markup languages like html or LaTex to write any sort of text
+knowledge of markup languages like HTML or LaTeX to write any sort of text
 (including with links, lists, bullets, etc.) and have it parsed into a variety
 of formats.
 
@@ -351,7 +350,7 @@ original `.Rmd` files, all the changes in the `.md` file will get wiped out.
 **Write sentences in text with inline output**
 
 ```{r, eval = FALSE}
-Include some text `r mean(1:5)`. 
+The mean is `r mean(1:5)`. 
 ```
 
 ### Global options
@@ -376,8 +375,7 @@ opts_chunk$set(echo = FALSE,
 **Dealing with long running process**
 
 By adding `cache = TRUE` to a code block definition. After the first run,
-results will be cached. We'll discuss better ways to acheive the same thing
-using `Make` in the next section.
+results will be cached.
 
 ### Working with graphics in knitr
 
@@ -394,35 +392,22 @@ p
 ---
 
 ### Pandoc
-Pandoc (http://johnmacfarlane.net/pandoc) is a universal document converter. In
+[Pandoc](http://johnmacfarlane.net/pandoc) is a universal document converter. In
 particular, Pandoc can convert Markdown to many other document formats,
-including LATEX, HTML, Rich Text Format (*.rtf), E- Book (*.epub), Microsoft
-Word (*.docx) and OpenDocument Text (*.odt), etc.
+including LaTeX, HTML, Rich Text Format (*.rtf*), E- Book (*.epub*), Microsoft
+Word (*.docx*) and OpenDocument Text (*.odt*), etc.
 Pandoc is a command line tool. Linux users should be fine with it; for Windows
 users, the command window can be accessed via the Start menu, then Run cmd. Once
 we have opened a command window (or terminal), we can type commands like this to
-convert a Markdown file, say, test.md, to other formats:
+convert a Markdown file, say, test.md, to other formats: `pandoc test.md -o
+test.html`, `pandoc test.md -o test.odt`, `pandoc test.md -o test.rtf`, `pandoc
+test.md -o test.docx`, or `pandoc test.md -o test.pdf`.
 
-```
-pandoc test.md -o test.html
-pandoc test.md -o test.odt
-pandoc test.md -o test.rtf
-pandoc test.md -o test.docx
-pandoc test.md -o test.pdf
-```
-
-You can add more options to the basic Pandoc call. To see a full list of options
-
-```
-pandoc --help
-```
+You can add more options to the basic Pandoc call. To see a full list of
+options: `pandoc --help`.
 
 A commonly used option is to add margins using the `-V` argument (in this case 1
-inch):
-
-```
-pandoc -V geometry:margin=1in test.md -o test.pdf
-```
+inch): `pandoc -V geometry:margin=1in test.md -o test.pdf`.
 
 ---
 
