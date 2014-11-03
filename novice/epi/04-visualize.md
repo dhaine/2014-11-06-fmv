@@ -41,7 +41,7 @@ points, `l` for line, ...), `main =` and `sub =` for title and subtitle, `xlab
 
 <pre class='in'><code>plot(milk ~ dim, data = prod.long)</code></pre>
 
-<img src="figure/04-viz-R-plot1.png" title="plot of chunk plot1" alt="plot of chunk plot1" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-plot1-1.png" title="plot of chunk plot1" alt="plot of chunk plot1" style="display: block; margin: auto;" />
 
 
 <pre class='in'><code>trend <- lm(milk ~ dim, data = prod.long)</code></pre>
@@ -50,7 +50,7 @@ points, `l` for line, ...), `main =` and `sub =` for title and subtitle, `xlab
 <pre class='in'><code>plot(milk ~ dim, data = prod.long)
 abline(trend)</code></pre>
 
-<img src="figure/04-viz-R-unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
 # ggplot2
 
@@ -62,7 +62,7 @@ code. `ggplot2` plots are more elegant than base graphics.
 <pre class='in'><code>library(ggplot2)
 qplot(dim, milk, data = prod.long, geom = "point")</code></pre>
 
-<img src="figure/04-viz-R-unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 The `qplot` function pretty much works like a drop-in-replacement for the `plot`
 function in base R. But using it just as a replacement is gross injustice to
@@ -79,15 +79,15 @@ ggplot(dairy, aes(x = dim, y = milk)) +
     geom_point(aes(color = parity)) +
     geom_smooth(method = 'lm')</code></pre>
 
-<img src="figure/04-viz-R-unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
  There are two sets of elements in this plot:
 
 __Aesthetics__
 
-First, let us focus on the variables `dtm`, `adg` and `sex`. You can see from
-the plot that we have mapped `dtm` to `x`, `adg` to `y` and the color of the
-point to `sex`. These graphical properties `x`, `y` and `sex` that encode the
+First, let us focus on the variables `dim`, `milk` and `parity`. You can see from
+the plot that we have mapped `dim` to `x`, `milk` to `y` and the color of the
+point to `parity`. These graphical properties `x`, `y` and `parity` that encode the
 data on the plot are referred to as `aesthetics`. Some other aesthetics to
 consider are `size`, `shape` etc.
 
@@ -96,7 +96,7 @@ consider are `size`, `shape` etc.
     geom_point(aes(color = parity, shape = mf)) +
     geom_smooth(method = 'lm')</code></pre>
 
-<img src="figure/04-viz-R-unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 
 __Geometries__
@@ -129,14 +129,14 @@ it in terms of the constituent elements.
 )
 ggplot() + layer_point</code></pre>
 
-<img src="figure/04-viz-R-layer1.png" title="plot of chunk layer1" alt="plot of chunk layer1" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-layer1-1.png" title="plot of chunk layer1" alt="plot of chunk layer1" style="display: block; margin: auto;" />
 
 __Exercise__
 
 Try to replicate the following plot shown below. The cross represents the mean,
 which is not produced by default in boxplot. Hint to get it: see `stat_summary`.
 
-<img src="figure/04-viz-R-pig_boxplot.png" title="plot of chunk pig_boxplot" alt="plot of chunk pig_boxplot" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-pig_boxplot-1.png" title="plot of chunk pig_boxplot" alt="plot of chunk pig_boxplot" style="display: block; margin: auto;" />
 
 ## Faceting
 
@@ -156,7 +156,7 @@ using `facet_wrap`.
     geom_smooth(method = 'lm') +
     facet_wrap(~ mf)</code></pre>
 
-<img src="figure/04-viz-R-facet-wrap.png" title="plot of chunk facet-wrap" alt="plot of chunk facet-wrap" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-facet-wrap-1.png" title="plot of chunk facet-wrap" alt="plot of chunk facet-wrap" style="display: block; margin: auto;" />
 
 Note how `ggplot2` automatically split the data into two subsets and even fitted
 the regression lines by panel. The power of a grammar based approach shines
@@ -170,4 +170,4 @@ We can also facet across two variables using `facet_grid`
     geom_smooth(method = 'lm') +
     facet_grid(mf ~ parity)</code></pre>
 
-<img src="figure/04-viz-R-facet-grid.png" title="plot of chunk facet-grid" alt="plot of chunk facet-grid" style="display: block; margin: auto;" />
+<img src="figure/04-viz-R-facet-grid-1.png" title="plot of chunk facet-grid" alt="plot of chunk facet-grid" style="display: block; margin: auto;" />

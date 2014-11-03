@@ -93,66 +93,106 @@ There are convenience functions based on `apply`: `rowSums(x)`, `colSums(x)`,
 `by` applies a function to subsets of a data frame.
 
 
-<pre class='in'><code>cow <- data.frame(cow = 1:100,
-                  milk = rnorm(100, mean = 30, sd = 9),
-                  parity = sample(c("1", "2", "2+"), 100, replace = TRUE),
-                  breed = sample(c("HO", "JE", "AY", "BS"), 100, replace = TRUE))
-by(cow$milk, cow[, "parity"], summary)</code></pre>
+<pre class='in'><code>by(prod.long$milk, prod.long[, "test"], summary)</code></pre>
 
 
 
-<div class='out'><pre class='out'><code>cow[, "parity"]: 1
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   3.95   22.20   28.10   28.20   34.20   52.30 
+<div class='out'><pre class='out'><code>prod.long[, "test"]: 1
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  10.40   26.00   33.00   33.41   40.90   59.20     135 
 -------------------------------------------------------- 
-cow[, "parity"]: 2
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   20.7    27.5    30.5    32.2    36.7    50.1 
+prod.long[, "test"]: 10
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   5.20   16.50   21.60   21.78   25.90   45.30     332 
 -------------------------------------------------------- 
-cow[, "parity"]: 2+
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   6.16   23.80   30.40   30.00   36.90   56.10 
+prod.long[, "test"]: 2
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   9.40   27.70   34.40   35.05   41.90   60.30     141 
+-------------------------------------------------------- 
+prod.long[, "test"]: 3
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   3.80   25.20   32.00   32.86   39.00   64.50     158 
+-------------------------------------------------------- 
+prod.long[, "test"]: 4
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  10.00   24.00   30.50   31.29   38.58   57.60     174 
+-------------------------------------------------------- 
+prod.long[, "test"]: 5
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  10.10   22.10   29.80   29.74   36.10   54.20     199 
+-------------------------------------------------------- 
+prod.long[, "test"]: 6
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  10.00   22.30   28.40   28.43   34.60   54.80     219 
+-------------------------------------------------------- 
+prod.long[, "test"]: 7
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   9.70   20.22   26.55   26.71   32.70   52.50     234 
+-------------------------------------------------------- 
+prod.long[, "test"]: 8
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   4.20   19.08   25.20   24.95   30.13   46.90     252 
+-------------------------------------------------------- 
+prod.long[, "test"]: 9
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   5.00   18.20   23.00   23.10   27.05   45.50     285 
 </code></pre></div>
 
+### Exercise 1
+Using `by`, what is the mean milk production for each monthly test? (use the
+`prod.long` dataset)
+
+### Solution
 
 
-<pre class='in'><code>by(cow$milk, cow[, "parity"], sum)</code></pre>
+<pre class='in'><code>by(prod.long$milk, prod.long[, "test"], function(x) mean(x, na.rm = TRUE))</code></pre>
 
 
 
-<div class='out'><pre class='out'><code>cow[, "parity"]: 1
-[1] 957.8
+<div class='out'><pre class='out'><code>prod.long[, "test"]: 1
+[1] 33.40822
 -------------------------------------------------------- 
-cow[, "parity"]: 2
-[1] 999.7
+prod.long[, "test"]: 10
+[1] 21.77976
 -------------------------------------------------------- 
-cow[, "parity"]: 2+
-[1] 1051
+prod.long[, "test"]: 2
+[1] 35.04708
+-------------------------------------------------------- 
+prod.long[, "test"]: 3
+[1] 32.8617
+-------------------------------------------------------- 
+prod.long[, "test"]: 4
+[1] 31.28558
+-------------------------------------------------------- 
+prod.long[, "test"]: 5
+[1] 29.73588
+-------------------------------------------------------- 
+prod.long[, "test"]: 6
+[1] 28.4306
+-------------------------------------------------------- 
+prod.long[, "test"]: 7
+[1] 26.70865
+-------------------------------------------------------- 
+prod.long[, "test"]: 8
+[1] 24.94637
+-------------------------------------------------------- 
+prod.long[, "test"]: 9
+[1] 23.1
 </code></pre></div>
-
 
 ## tapply
 
 `tapply` applies a function to subsets of a vector.
 
 
-<pre class='in'><code>tapply(cow$milk, cow$parity, mean)</code></pre>
+<pre class='in'><code>tapply(health.wide$age, health.wide$lactation, mean)</code></pre>
 
 
 
-<div class='out'><pre class='out'><code>    1     2    2+ 
-28.17 32.25 30.03 
-</code></pre></div>
-
-
-
-<pre class='in'><code>kg_to_lb <- function(x){mean(x * 2.205)}
-tapply(cow$milk, cow$parity, kg_to_lb)</code></pre>
-
-
-
-<div class='out'><pre class='out'><code>    1     2    2+ 
-62.11 71.11 66.21 
+<div class='out'><pre class='out'><code>        1         2         3         4         5         6         7 
+ 2.234899  3.372519  4.447423  5.574000  6.663043  7.457143  8.685714 
+        8         9 
+ 9.825000 10.100000 
 </code></pre></div>
 
 `tapply()` returns an array; `by()`returns a list. 
@@ -239,28 +279,28 @@ An extremely useful function to generate datasets for simulation purposes.
 
 
 
-<div class='out'><pre class='out'><code>         [,1]    [,2]     [,3]      [,4]    [,5]     [,6]    [,7]     [,8]
- [1,]  0.7668  0.7497  0.46629 -1.589614 -0.5636 -0.03401  1.1123 -1.36711
- [2,] -0.8961  0.1564 -0.32791 -0.572453 -0.7462 -0.83412  1.4378 -0.48625
- [3,]  0.1358 -0.7115  1.05918 -0.116828  0.1663  0.22193  2.2237 -0.70090
- [4,]  1.0672  0.4363 -0.07396 -1.005235  1.3831 -1.03748  1.5176  1.09699
- [5,] -0.3989 -0.6100  0.25825 -0.007575  1.0929  1.11583 -0.4568 -0.92108
- [6,]  0.2214  1.2120 -2.05653  0.117709  0.6476  0.10659 -0.5188  1.22469
- [7,] -2.3706  0.2391  1.06364  0.179200 -0.2394  0.12782 -0.0933 -0.02047
- [8,]  1.5642  1.3914  0.61901 -0.653233  1.9759 -1.73107  1.0620  1.79092
- [9,]  0.3659 -0.2139  0.20855  1.103183  2.1063 -1.14629  0.7767  0.21098
-[10,]  0.8129 -1.8563  0.40717  0.164047 -1.6752  1.03052  0.4641  2.59760
-          [,9]    [,10]
- [1,]  1.38690  0.54253
- [2,]  1.78799  1.05938
- [3,] -0.62669  0.09466
- [4,] -0.76544 -1.18642
- [5,] -2.63058 -0.37934
- [6,] -0.02062 -0.10775
- [7,]  1.06557  0.13955
- [8,] -0.10041 -0.63278
- [9,]  0.94612 -0.93532
-[10,]  0.68802  1.24092
+<div class='out'><pre class='out'><code>            [,1]        [,2]        [,3]       [,4]        [,5]
+ [1,] -0.3825285 -0.15049662  0.38901844 -1.1634208 -0.47896589
+ [2,] -1.2224782 -1.32364719 -2.17280927 -0.9154476 -0.84531221
+ [3,]  1.0374422  0.52958458 -1.25251725  1.2922039  1.30277280
+ [4,]  0.4850371 -0.05288146 -0.36073702 -2.0572380 -0.87530927
+ [5,] -0.6831718  0.99828390 -0.94361110 -0.1475951 -0.08923699
+ [6,] -0.4935289  1.56597911  0.64880438 -1.9919463 -1.19038569
+ [7,]  0.3182497 -0.19100380  0.08893411  1.0471156  1.51078832
+ [8,]  0.3944179 -0.30467431  0.30919127 -0.4871586 -0.27297905
+ [9,] -0.8765935 -0.69960802  0.36959642  1.0824069  0.18708743
+[10,] -0.6470290  0.49547885 -1.06947931  0.3402216  0.31785455
+             [,6]       [,7]       [,8]        [,9]       [,10]
+ [1,] -0.51713224  1.1057275 -0.8016104 -2.13246235 -2.06097131
+ [2,] -0.13160239  1.9643513  0.8936599  1.09957048 -0.02398695
+ [3,]  2.06026467  1.8318046 -1.8882087 -1.44473269 -0.31963372
+ [4,] -0.19832975 -2.3407156 -0.3147375 -0.26288677  2.05283934
+ [5,] -0.39216534  0.3093236  0.7342018 -0.61889206 -0.45746891
+ [6,] -0.03375015  0.5619868 -2.3627367  0.04239645  1.18102916
+ [7,]  0.22983142 -1.7190631 -1.0305065 -2.01695685 -0.69525347
+ [8,] -1.16265996  0.1568677 -1.2439022 -0.47840882  1.20459023
+ [9,] -0.09364058 -1.6898980 -1.5229521 -2.10881994 -0.02985425
+[10,]  0.12651834  1.2258497  1.6506443  0.32654385  0.27919528
 </code></pre></div>
 
 
@@ -269,28 +309,28 @@ An extremely useful function to generate datasets for simulation purposes.
 
 
 
-<div class='out'><pre class='out'><code>          [,1]     [,2]    [,3]     [,4]     [,5]     [,6]     [,7]
- [1,]  0.65227  1.47664  0.8779  0.18688 -0.80794 -0.17088  0.60280
- [2,] -0.17260  0.33333 -1.1624  0.08734 -1.12366 -0.01645  0.06405
- [3,]  0.61335 -0.49099 -0.3785 -0.79292 -0.54918 -0.35244  0.14892
- [4,] -2.21235 -2.45890  1.1668 -0.20793  0.45460  0.57520  0.14274
- [5,] -2.42446  0.82666  0.7346 -0.12014 -0.97467  0.99389 -1.52465
- [6,]  0.85184 -1.10431  0.2007  0.74339  0.14953 -0.09164 -0.19681
- [7,]  0.06051 -0.41689 -1.6005  0.32177 -1.35215 -1.36906 -0.45747
- [8,] -0.20095 -0.94232  0.9857  0.05320  1.06610 -2.51200  0.07430
- [9,] -0.28616 -0.07315  2.8053  1.40341 -0.03351  0.96139 -0.67381
-[10,] -1.15769 -1.00542 -0.4868  2.19842  0.89798 -0.25782  0.39470
-         [,8]    [,9]    [,10]
- [1,] -1.0936 -0.5278  0.25093
- [2,]  0.8529 -1.6037  1.03137
- [3,]  1.4678  0.4896  0.13329
- [4,] -0.3701  0.8981 -0.38644
- [5,] -0.3514 -1.0902 -1.95764
- [6,]  1.9312  0.3368 -0.04482
- [7,]  0.7469 -0.5293 -0.26333
- [8,]  0.6686  1.2163 -0.85742
- [9,] -1.1088  1.0104 -0.46143
-[10,]  0.1623  0.1168  0.23603
+<div class='out'><pre class='out'><code>             [,1]       [,2]        [,3]        [,4]        [,5]
+ [1,]  0.21532660 -1.2139901  1.27533546  0.50469782 -0.31402143
+ [2,]  0.07159233 -0.5490651  0.78607632 -0.20445991  1.31591264
+ [3,] -0.84285864 -0.4463908 -1.47157164 -0.03352663 -0.07381336
+ [4,]  0.30104217 -1.7143984  0.09714039  0.85697553  0.81983458
+ [5,] -0.77943891  1.3506572 -0.85223818 -0.01877259  1.94572486
+ [6,] -0.59264082 -0.6101494  0.28948520 -0.93769694  0.32632527
+ [7,]  1.06111813 -1.9847355  0.33777711 -1.48530973  0.77209062
+ [8,]  0.12360264  1.1675571  1.37584446  0.13636452  1.23498391
+ [9,]  0.78380938  0.5435967  1.17265647  1.24079608 -0.95663607
+[10,]  1.76230556 -0.1695249 -1.11997727  0.68431483 -0.37189229
+            [,6]       [,7]       [,8]       [,9]       [,10]
+ [1,]  0.3435102 -0.5519194 -1.4468220  1.7836163  0.80442819
+ [2,] -0.7940568  0.4950202 -1.2353274 -0.6189973  0.12308133
+ [3,]  1.2870927  0.5030508  1.2403990 -0.6358977 -2.03398795
+ [4,] -1.0653873 -0.1649153 -0.1030459  0.2920181 -0.59928524
+ [5,] -0.5416594  0.8448543  0.6994833  1.4987558  0.46259958
+ [6,] -0.8268841  0.8531510  0.8927606  1.2150064 -0.80805707
+ [7,]  1.2912449  0.8045406  0.1416868  1.2222159 -1.45437624
+ [8,]  0.8688291  1.2726477  0.2637141 -0.7757005  2.42891645
+ [9,] -0.9665802  0.2111594  0.6598173 -1.2515483 -0.87734596
+[10,] -0.7294334 -0.8239659 -1.2237704 -0.3513476 -0.04919813
 </code></pre></div>
 
 The final arguments turns the result into a vector or matrix if possible.
@@ -352,51 +392,53 @@ $d
 ## aggregate
 
 
-<pre class='in'><code>aggregate(milk ~ parity + breed, data = cow, FUN = mean)</code></pre>
+<pre class='in'><code>aggregate(age ~ lactation + da, data = health.wide, FUN = mean)</code></pre>
 
 
 
-<div class='out'><pre class='out'><code>   parity breed  milk
-1       1    AY 26.42
-2       2    AY 32.12
-3      2+    AY 28.00
-4       1    BS 27.80
-5       2    BS 31.60
-6      2+    BS 28.22
-7       1    HO 26.76
-8       2    HO 31.65
-9      2+    HO 32.58
-10      1    JE 30.86
-11      2    JE 33.35
-12     2+    JE 31.27
+<div class='out'><pre class='out'><code>   lactation  da       age
+1          1  No  2.235862
+2          2  No  3.366667
+3          3  No  4.417582
+4          4  No  5.572917
+5          5  No  6.668889
+6          6  No  7.457143
+7          7  No  8.816667
+8          8  No  9.825000
+9          9  No 10.100000
+10         1 Yes  2.200000
+11         2 Yes  3.750000
+12         3 Yes  4.900000
+13         4 Yes  5.600000
+14         5 Yes  6.400000
+15         7 Yes  7.900000
 </code></pre></div>
 
 
 ## table
 
 
-<pre class='in'><code>t1 <- table(cow$parity)
+<pre class='in'><code>t1 <- table(health.wide$parity)
 t1</code></pre>
 
 
 
 <div class='out'><pre class='out'><code>
- 1  2 2+ 
-34 31 35 
+  1  2+ 
+149 351 
 </code></pre></div>
 
 
 
-<pre class='in'><code>t2 <- table(cow$parity, cow$breed)
+<pre class='in'><code>t2 <- table(health.wide$parity, health.wide$da)
 t2</code></pre>
 
 
 
 <div class='out'><pre class='out'><code>    
-     AY BS HO JE
-  1   7  9  8 10
-  2   4  8  9 10
-  2+  8 10 10  7
+      No Yes
+  1  145   4
+  2+ 339  12
 </code></pre></div>
 
 
@@ -406,8 +448,8 @@ t2</code></pre>
 
 
 <div class='out'><pre class='out'><code>
-   1    2   2+ 
-0.34 0.31 0.35 
+    1    2+ 
+0.298 0.702 
 </code></pre></div>
 
 
@@ -417,10 +459,9 @@ t2</code></pre>
 
 
 <div class='out'><pre class='out'><code>    
-       AY   BS   HO   JE
-  1  0.07 0.09 0.08 0.10
-  2  0.04 0.08 0.09 0.10
-  2+ 0.08 0.10 0.10 0.07
+        No   Yes
+  1  0.290 0.008
+  2+ 0.678 0.024
 </code></pre></div>
 
 
@@ -430,62 +471,47 @@ t2</code></pre>
 
 
 <div class='out'><pre class='out'><code>    
-         AY     BS     HO     JE
-  1  0.3684 0.3333 0.2963 0.3704
-  2  0.2105 0.2963 0.3333 0.3704
-  2+ 0.4211 0.3704 0.3704 0.2593
+            No       Yes
+  1  0.2995868 0.2500000
+  2+ 0.7004132 0.7500000
 </code></pre></div>
 
 See also `xtabs()`, `ftable()` or `CrossTable()` (in library `gmodels`).
 
-### Exercise
+### Exercise 2
 
-With the wide format `health` dataset you created, what is the median cow age in
-each herd?
+From the lesson on `R` objects, you created a matrix based on the following:
+Three hundred and thirty-three cows are milked by a milker wearing gloves and
+280 by a milker not wearing gloves. Two hundred cows in each group developed a
+mastitis. Using the `apply` family of functions, find out the risk ratio and
+odds ratio for mastitis according to wearing gloves.
 
+|           | Mastitis | No mastitis |
+|:---------:|:--------:|:-----------:|
+| Gloves    |: 200    :|: 133       :|
+| No gloves |: 200    :|: 80        :|
 
 ### Solution
 
 
-<pre class='in'><code>aggregate(age ~ herd, data = health.wide, FUN = median)</code></pre>
+<pre class='in'><code>tab <- rbind(c(200, 133), c(200, 80))
+rownames(tab) <- c("Gloves", "No gloves")
+colnames(tab) <- c("Mastitis", "No mastitis")
+
+row.tot <- apply(tab, 1, sum)
+risk <- tab[, "Mastitis"] / row.tot
+risk.ratio <- risk / risk[2]
+odds <- risk / (1 - risk)
+odds.ratio <- odds / odds[2]
+rbind(risk, risk.ratio, odds, odds.ratio)</code></pre>
 
 
 
-<div class='out'><pre class='out'><code>   herd  age
-1    K1 3.50
-2   K10 4.30
-3  K100 4.45
-4  K101 2.20
-5  K102 3.30
-6  K103 3.40
-7  K104 3.20
-8  K105 4.70
-9  K106 4.25
-10 K107 3.90
-11 K108 6.40
-12  K11 3.90
-13 K110 3.20
-14 K111 3.15
-15 K112 4.75
-16 K113 3.40
-17 K114 5.10
-18 K115 3.60
-19 K116 3.20
-20 K117 3.60
-21 K118 3.20
-22 K119 4.80
-23  K12 3.40
-24 K120 3.15
-25 K121 4.60
-26 K122 2.25
-27 K123 3.55
-28 K124 4.25
-29 K125 3.70
-30 K126 3.50
-31 K128 3.40
-32 K129 6.75
-33  K13 3.30
-34 K130 4.05
+<div class='out'><pre class='out'><code>              Gloves No gloves
+risk       0.6006006 0.7142857
+risk.ratio 0.8408408 1.0000000
+odds       1.5037594 2.5000000
+odds.ratio 0.6015038 1.0000000
 </code></pre></div>
 
 ---
@@ -496,8 +522,8 @@ The following figure can give you a sense of what is split-apply-combine.
 
 ![](split.png)
 
-`plyr` package cna be used to apply the split-apply-combine strategy. You need
-to provide the follwoing information:
+`plyr` package can be used to apply the split-apply-combine strategy. You need
+to provide the following information:
 
 1. The data structure of the input
 2. The dataset being worked on

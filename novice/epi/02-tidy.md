@@ -49,7 +49,14 @@ prod.long2 <- melt(
     measure.vars = 12:21,
     variable.name = "test",
     value.name = "dim"
-    )</code></pre>
+    )
+
+# combining melt and dcast
+prod.l1 <- melt(prod, id = "unique")
+library(stringr)
+prod.l1 <- transform(prod.l1, month = str_replace(variable, "^.*\\.", ""),
+                    variable = str_replace(variable, "\\..*$", ""))
+prod.l2 <- dcast(prod.l1, unique + month ~ variable)</code></pre>
 
 We can go from long to wide format with the `dcast` function.
 
@@ -91,7 +98,7 @@ production. Base `R` has the `merge` function for this.
 <pre class='in'><code>health.prod <- merge(health.wide, prod, by = "unique")</code></pre>
 
 `plyr` library has also the `join` function to merge together data
-frames. `plyr` has also other interesting funcitons. For example, when you
+frames. `plyr` has other interesting functions as well. For example, when you
 `melt` the `prod` dataset, you noticed that `month` could be better
 formatted. `plyr` has the `mutate` function to add or replace existing columns,
 and it would be more interesting to order columns with `arrange` function:

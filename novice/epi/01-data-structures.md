@@ -95,15 +95,6 @@ typeof(z)</code></pre>
 <div class='out'><pre class='out'><code>[1] "integer"
 </code></pre></div>
 
-R has many data structures. These include
-
-* atomic vector
-* list
-* matrix
-* data frame
-* factors
-* tables
-
 Below is a short definition  and quick example of each of these data
 structures which you can use to decide which is the best for
 representing your data in R.
@@ -232,7 +223,7 @@ You can also use the `:` operator or the `seq` function:
 <div class='out'><pre class='out'><code>[1] NaN
 </code></pre></div>
 
-Each object can have attributes. Attribues can be part of an object of R. These
+Each object can have attributes. Attributes can be part of an object of R. These
 include: 
 
 * names
@@ -351,7 +342,7 @@ saved and returned:
 
 <pre class='in'><code>h <- hist(islands)</code></pre>
 
-<img src="figure/01-obj-R-hist.png" title="plot of chunk hist" alt="plot of chunk hist" style="display: block; margin: auto;" />
+<img src="figure/01-obj-R-hist-1.png" title="plot of chunk hist" alt="plot of chunk hist" style="display: block; margin: auto;" />
 
 <pre class='in'><code>str(h)</code></pre>
 
@@ -373,8 +364,8 @@ the internal structure of an R object.
 
 ### Factor
 Factor is a special type of vector to store categorical values. They can be
-ordered or unordered and are important when for modelling functions such as
-`lm()` and `glm()` and also in plot methods.
+ordered or unordered and are important for modelling functions such as
+`lm()` and `glm()`, and also in plot methods.
 
 Factors can only contain pre-defined values.
 
@@ -388,7 +379,7 @@ Sometimes factors can be left unordered. Example: `male`, `female`.
 Other times you might want factors to be ordered (or ranked). Example: `low`,
 `medium`, `high`.
 
-Underlying it's represented by numbers 1, 2, 3.
+Underlying it is represented by numbers 1, 2, 3.
 
 They are better than using simple integer labels because factors are what are
 called self describing. `male` and `female` is more descriptive than `1`s and
@@ -412,7 +403,7 @@ breed</code></pre>
 [11] Holstein   
 Levels: Ayrshire Brown Swiss Canadian Holstein
 </code></pre></div>
-It stores values as a set of labeled integers. Some functions treat
+It stores values as a set of labelled integers. Some functions treat
 factors differently from numeric vectors.
 
 
@@ -437,7 +428,7 @@ If you need to convert a factor to a character vector, simply use
 [11] "Holstein"   
 </code></pre></div>
 
-In modeling functions, it is important to know what the baseline level is.
+In modelling functions, it is important to know what the baseline level is.
 This is the first factor but by default the ordering is determined by
 alphabetical order of words entered. You can change this by specifying the
 levels (another option is to use the function `relevel()`).
@@ -552,7 +543,8 @@ is.nan()</code></pre>
 
 Check for both.
 
-NA values have a class. So you can have both an integer NA (`NA_integer_`) and a character NA (`NA_character_`).
+NA values have a class. So you can have both an integer NA (`NA_integer_`) and a
+character NA (`NA_character_`).
 
 `NaN` is also `NA`. But not the other way around.
 
@@ -612,7 +604,7 @@ is.nan(x)</code></pre>
 
 ---
 
-### Exercise
+### Exercise 1
 
 Import the [health](health.csv) dataset. This dataset presents the lactations of
 500 cows from various herds, providing age, lactation number, presence of milk
@@ -648,6 +640,46 @@ str(health)</code></pre>
 health$parity <- cut(health$lactation,
                      breaks = c(0, 1, max(health$lactation)),
                      labels = c("1", "2+"))</code></pre>
+
+### Exercise 2
+
+Three hundred and thirty-three cows are milked by a milker wearing gloves and
+280 by a milker not wearing gloves. Two hundred cows in each group developed a
+mastitis. Create the following table and perform a chi-squared test (hint:
+`chisq.test`).
+
+|           | Mastitis | No mastitis |
+|:---------:|:--------:|:-----------:|
+| Gloves    |: 200    :|: 133       :|
+| No gloves |: 200    :|: 80        :|
+
+### Solution
+
+
+<pre class='in'><code>tab <- rbind(c(200, 133), c(200, 80))
+rownames(tab) <- c("Gloves", "No gloves")
+colnames(tab) <- c("Mastitis", "No mastitis")
+tab</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>          Mastitis No mastitis
+Gloves         200         133
+No gloves      200          80
+</code></pre></div>
+
+
+
+<pre class='in'><code>chisq.test(tab)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tab
+X-squared = 8.1761, df = 1, p-value = 0.004245
+</code></pre></div>
 
 ---
 
