@@ -1,0 +1,85 @@
+\documentclass[compress]{beamer}
+%--------------------------------------------------------------------------
+% Common packages
+%--------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french,english]{babel}
+
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{breakurl}
+
+\makeatletter
+
+\makeatother
+
+%--------------------------------------------------------------------------
+% General presentation settings
+%--------------------------------------------------------------------------
+\title{Software Carpentry Workshop}
+\subtitle{FMV}
+\date{}
+\author{}
+
+\titlegraphic{\includegraphics[scale=.75]{../img/software-carpentry-banner.png}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%--------------------------------------------------------------------------
+% Titlepage
+%--------------------------------------------------------------------------
+
+\maketitle
+
+\begin{frame}{The Unix Shell}
+
+\begin{center}
+  \vfill
+    \begin{tikzpicture}
+      \node (lib) at (0,0) {\includegraphics[scale=.225]{libraries.jpg}};
+      \node (term) at (6,0) {\includegraphics[scale=.225]{terminal.jpg}};
+        \draw[->,red,thick] (lib) -- (term);
+    \end{tikzpicture}
+  \vfill
+\end{center}
+\end{frame}
+
+\begin{frame}{Git and Github}
+\begin{center}
+  \vfill
+  \begin{tikzpicture}
+    \node (dropbox) at (0,0) {\includegraphics[scale=.3]{dropbox.png}};
+    \node[align=left] (git) at (6,0)
+    {\includegraphics[scale=.1]{Git.png}\\\includegraphics[scale=.1]{Octocat.jpg}};
+    \draw[->,red,thick] (dropbox) -- (git);
+  \end{tikzpicture}
+  \vfill
+\end{center}
+\end{frame}
+
+\begin{frame}{R}
+\begin{center}
+  \vfill
+  \begin{tikzpicture}
+    \node (excel) at (0,0) {\includegraphics[scale=.3]{excel.png}};
+    \node (r) at (6,0) {\includegraphics{Rlogo.png}};
+    \draw[->,red,thick] (excel) -- (r);
+  \end{tikzpicture}
+  \vfill
+\end{center}
+\end{frame}
+
+\begin{frame}{Thank you!}
+  \begin{center}
+    \vfill
+    \includegraphics[scale=.25]{../GREZOSP.jpg}
+  \end{center}
+\end{frame}
+
+\end{document}
