@@ -159,7 +159,7 @@ length(vowels)
 
 #### Challenges
 
-1. R has a built-in function called `seq` that creates a list of numbers:
+  + R has a built-in function called `seq` that creates a list of numbers:
 
 ```{r}
 seq(3)
@@ -180,7 +180,7 @@ print_N <- function(N) {
 print_N(3)
 ```
 
-2. Exponentiation is built into R:
+  + Exponentiation is built into R:
 
 ```{r}
 2^4
@@ -202,7 +202,7 @@ expo <- function(base, power) {
 expo(2, 4)
 ```
 
-1. Write a function called `total` that calculates the sum of the values in a vector.
+  + Write a function called `total` that calculates the sum of the values in a vector.
 (R has a built-in function called `sum` that does this for you.
 Please don't use it for this exercise.)
 
@@ -271,7 +271,7 @@ For instruction on best practices, see this supplementary [lesson](03-supp-loops
 
 #### Challenges
 
-1. Write a function called `analyze_all` that takes a filename pattern as its sole argument and runs `analyze` for each file whose name matches the pattern.
+  + Write a function called `analyze_all` that takes a filename pattern as its sole argument and runs `analyze` for each file whose name matches the pattern.
 
 ```{r analyze_all, include=FALSE}
 analyze_all <- function(pattern) {
