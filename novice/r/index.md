@@ -20,6 +20,8 @@ to use whatever language your colleagues are using,
 so that you can share you work with them easily,
 and to use that language *well*.
 
+Note that due to limited time, we will likely only cover the first three lessons during the workshop.
+
 <div class="toc" markdown="1">
 
 1.  [Analyzing Patient Data](01-starting-with-data.html)
