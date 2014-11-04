@@ -96,7 +96,7 @@ print_words <- function(sentence) {
 print_words(best_practice)
 ```
 
-This is shorter---certainly shorter than something that prints every character in a hundred-letter string---and more robust as well:
+This is shorter---certainly shorter than something that prints every element in a long vector---and more robust as well:
 
 ```{r}
 print_words(best_practice[-6])
@@ -159,7 +159,7 @@ length(vowels)
 
 #### Challenges
 
-1. R has a built-in function called `seq` that creates a list of numbers:
+  + R has a built-in function called `seq` that creates a list of numbers:
 
 ```{r}
 seq(3)
@@ -180,7 +180,27 @@ print_N <- function(N) {
 print_N(3)
 ```
 
-2. Exponentiation is built into R:
+  + Write a function called `total` that calculates the sum of the values in a vector.
+(R has a built-in function called `sum` that does this for you.
+Please don't use it for this exercise.)
+
+```{r include=FALSE}
+total <- function(vec) {
+  #calculates the sum of the values in a vector
+  vec_sum <- 0
+  for (num in vec) {
+    vec_sum <- vec_sum + num
+  }
+  return(vec_sum)
+}
+```
+
+```{r}
+ex_vec <- c(4, 8, 15, 16, 23, 42)
+total(ex_vec)
+```
+
+  + Exponentiation is built into R:
 
 ```{r}
 2^4
@@ -200,26 +220,6 @@ expo <- function(base, power) {
 
 ```{r}
 expo(2, 4)
-```
-
-1. Write a function called `total` that calculates the sum of the values in a vector.
-(R has a built-in function called `sum` that does this for you.
-Please don't use it for this exercise.)
-
-```{r include=FALSE}
-total <- function(vec) {
-  #calculates the sum of the values in a vector
-  vec_sum <- 0
-  for (num in vec) {
-    vec_sum <- vec_sum + num
-  }
-  return(vec_sum)
-}
-```
-
-```{r}
-ex_vec <- c(4, 8, 15, 16, 23, 42)
-total(ex_vec)
 ```
 
 ### Processing Multiple Files
@@ -271,7 +271,7 @@ For instruction on best practices, see this supplementary [lesson](03-supp-loops
 
 #### Challenges
 
-1. Write a function called `analyze_all` that takes a filename pattern as its sole argument and runs `analyze` for each file whose name matches the pattern.
+  + Write a function called `analyze_all` that takes a filename pattern as its sole argument and runs `analyze` for each file whose name matches the pattern.
 
 ```{r analyze_all, include=FALSE}
 analyze_all <- function(pattern) {
