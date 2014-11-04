@@ -22,6 +22,10 @@ and to use that language *well*.
 
 Note that due to limited time, we will likely only cover the first three lessons during the workshop.
 
+Please download the data for these lessons using this [link][download].
+
+[download]: https://github.com/jdblischak/swc-novice-r/archive/master.zip
+
 <div class="toc" markdown="1">
 
 1.  [Analyzing Patient Data](01-starting-with-data.html)
