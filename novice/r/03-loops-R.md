@@ -130,7 +130,7 @@ print_words(best_practice)</code></pre>
 [1] "work"
 </code></pre></div>
 
-This is shorter---certainly shorter than something that prints every character in a hundred-letter string---and more robust as well:
+This is shorter---certainly shorter than something that prints every element in a long vector---and more robust as well:
 
 
 <pre class='in'><code>print_words(best_practice[-6])</code></pre>
