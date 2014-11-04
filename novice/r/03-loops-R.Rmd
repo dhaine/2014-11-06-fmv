@@ -180,6 +180,26 @@ print_N <- function(N) {
 print_N(3)
 ```
 
+  + Write a function called `total` that calculates the sum of the values in a vector.
+(R has a built-in function called `sum` that does this for you.
+Please don't use it for this exercise.)
+
+```{r include=FALSE}
+total <- function(vec) {
+  #calculates the sum of the values in a vector
+  vec_sum <- 0
+  for (num in vec) {
+    vec_sum <- vec_sum + num
+  }
+  return(vec_sum)
+}
+```
+
+```{r}
+ex_vec <- c(4, 8, 15, 16, 23, 42)
+total(ex_vec)
+```
+
   + Exponentiation is built into R:
 
 ```{r}
@@ -200,26 +220,6 @@ expo <- function(base, power) {
 
 ```{r}
 expo(2, 4)
-```
-
-  + Write a function called `total` that calculates the sum of the values in a vector.
-(R has a built-in function called `sum` that does this for you.
-Please don't use it for this exercise.)
-
-```{r include=FALSE}
-total <- function(vec) {
-  #calculates the sum of the values in a vector
-  vec_sum <- 0
-  for (num in vec) {
-    vec_sum <- vec_sum + num
-  }
-  return(vec_sum)
-}
-```
-
-```{r}
-ex_vec <- c(4, 8, 15, 16, 23, 42)
-total(ex_vec)
 ```
 
 ### Processing Multiple Files

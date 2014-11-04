@@ -246,6 +246,21 @@ Using `seq`, write a function that prints the first **N** natural numbers, one p
 [1] 3
 </code></pre></div>
 
+  + Write a function called `total` that calculates the sum of the values in a vector.
+(R has a built-in function called `sum` that does this for you.
+Please don't use it for this exercise.)
+
+
+
+
+<pre class='in'><code>ex_vec <- c(4, 8, 15, 16, 23, 42)
+total(ex_vec)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>[1] 108
+</code></pre></div>
+
   + Exponentiation is built into R:
 
 
@@ -266,21 +281,6 @@ Write a function called `expo` that uses a loop to calculate the same result.
 
 
 <div class='out'><pre class='out'><code>[1] 16
-</code></pre></div>
-
-  + Write a function called `total` that calculates the sum of the values in a vector.
-(R has a built-in function called `sum` that does this for you.
-Please don't use it for this exercise.)
-
-
-
-
-<pre class='in'><code>ex_vec <- c(4, 8, 15, 16, 23, 42)
-total(ex_vec)</code></pre>
-
-
-
-<div class='out'><pre class='out'><code>[1] 108
 </code></pre></div>
 
 ### Processing Multiple Files
