@@ -119,7 +119,7 @@ Using `by`, what is the mean milk production for each monthly test? (use the
 
 ### Solution
 
-```{r}
+```{r eval=FALSE}
 by(prod.long$milk, prod.long[, "test"], function(x) mean(x, na.rm = TRUE))
 ```
 
@@ -235,7 +235,7 @@ odds ratio for mastitis according to wearing gloves.
 
 ### Solution
 
-```{r}
+```{r echo=FALSE}
 tab <- rbind(c(200, 133), c(200, 80))
 rownames(tab) <- c("Gloves", "No gloves")
 colnames(tab) <- c("Mastitis", "No mastitis")

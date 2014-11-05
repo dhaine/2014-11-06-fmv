@@ -28,7 +28,7 @@ analyses:
 - [EpiEstim](http://cran.r-project.org/web/packages/EpiEstim/index.html) (UK)
 - [EpiModel](http://cran.r-project.org/web/packages/EpiModel/index.html) (USA)
 
-But before using these packages you might well go through these series of steps :
+Before using these packages you might well go through these series of steps :
 cleaning, transforming, visualizing, and modeling your data (from
 [Hadley Wickham](http://vita.had.co.nz/papers/tidy-data-pres.pdf)).
 

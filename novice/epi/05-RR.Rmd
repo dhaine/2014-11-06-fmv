@@ -189,7 +189,7 @@ have `pandoc` installed on your computer).
 health <- read.csv(
     file = "health.csv",
     header = TRUE,
-    stringnsAsFactors = FALSE)
+    stringsAsFactors = FALSE)
 health$presence <- factor(health$presence, labels = c("No", "Yes"))
 health$parity <- cut(health$lactation,
                      breaks = c(0, 1, max(health$lactation)),
