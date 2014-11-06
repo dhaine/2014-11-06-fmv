@@ -416,7 +416,7 @@ mastitis. Create the following table and perform a chi-squared test (hint:
 
 ### Solution
 
-```{r echo=FALSE}
+```{r echo=FALSE,eval=FALSE}
 tab <- rbind(c(200, 133), c(200, 80))
 rownames(tab) <- c("Gloves", "No gloves")
 colnames(tab) <- c("Mastitis", "No mastitis")

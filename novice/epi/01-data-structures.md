@@ -656,19 +656,6 @@ mastitis. Create the following table and perform a chi-squared test (hint:
 ### Solution
 
 
-<div class='out'><pre class='out'><code>          Mastitis No mastitis
-Gloves         200         133
-No gloves      200          80
-</code></pre></div>
-
-
-
-<div class='out'><pre class='out'><code>
-	Pearson's Chi-squared test with Yates' continuity correction
-
-data:  tab
-X-squared = 8.1761, df = 1, p-value = 0.004245
-</code></pre></div>
 
 ---
 
