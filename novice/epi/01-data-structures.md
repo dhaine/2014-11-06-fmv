@@ -656,6 +656,30 @@ mastitis. Create the following table and perform a chi-squared test (hint:
 ### Solution
 
 
+<pre class='in'><code>tab <- rbind(c(200, 133), c(200, 80))
+rownames(tab) <- c("Gloves", "No gloves")
+colnames(tab) <- c("Mastitis", "No mastitis")
+tab</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>          Mastitis No mastitis
+Gloves         200         133
+No gloves      200          80
+</code></pre></div>
+
+
+
+<pre class='in'><code>chisq.test(tab)</code></pre>
+
+
+
+<div class='out'><pre class='out'><code>
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tab
+X-squared = 8.1761, df = 1, p-value = 0.004245
+</code></pre></div>
 
 ---
 
