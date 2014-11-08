@@ -71,6 +71,9 @@ library(stringr)
 prod.l1 <- transform(prod.l1, month = str_replace(variable, "^.*\\.", ""),
                     variable = str_replace(variable, "\\..*$", ""))
 prod.l2 <- dcast(prod.l1, unique + month ~ variable)
+
+# in 1 line with base::reshape
+prod.l3 <- reshape(prod, dir = "long", varying = 2:21, sep = ".") 
 ```
 
 We can go from long to wide format with the `dcast` function.
